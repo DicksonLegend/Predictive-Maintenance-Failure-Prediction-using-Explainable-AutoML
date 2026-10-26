@@ -1,0 +1,30 @@
+{
+    "dataset_source": "real",
+    "number_of_rows": 10000,
+    "number_of_columns": 7,
+    "columns": [
+        "type",
+        "air_temp",
+        "process_temp",
+        "rotational_speed",
+        "torque",
+        "tool_wear",
+        "machine_failure"
+    ],
+    "target_distribution": {
+        "0": 9661,
+        "1": 339
+    },
+    "target_positive_percentage": 3.39,
+    "missing_value_count": {
+        "type": 0,
+        "air_temp": 0,
+        "process_temp": 0,
+        "rotational_speed": 0,
+        "torque": 0,
+        "tool_wear": 0,
+        "machine_failure": 0
+    },
+    "created_timestamp": "2026-10-26T16:36:47.777446Z",
+    "warning": "Real dataset loaded successfully."
+}

@@ -1,0 +1,8 @@
+column,missing_count,missing_percentage
+type,0,0.0
+air_temp,0,0.0
+process_temp,0,0.0
+rotational_speed,0,0.0
+torque,0,0.0
+tool_wear,0,0.0
+machine_failure,0,0.0
