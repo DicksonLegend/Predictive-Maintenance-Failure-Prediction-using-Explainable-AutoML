@@ -1,0 +1,26 @@
+[2026-10-26 22:28:29] [INFO] [run_phase2:run_phase2_pipeline:327] ======================================================================
+[2026-10-26 22:28:29] [INFO] [run_phase2:run_phase2_pipeline:328] STARTING PHASE 2: BASELINE & HYPERPARAMETER TUNING (MODE=FAST)
+[2026-10-26 22:28:29] [INFO] [run_phase2:run_phase2_pipeline:329] ======================================================================
+[2026-10-26 22:28:29] [INFO] [run_phase2:load_phase1_manual_data:59] Loading datasets: D:\AutoML_XAI\data\processed\train_manual.csv and D:\AutoML_XAI\data\processed\test_manual.csv...
+[2026-10-26 22:28:29] [INFO] [run_phase2:load_phase1_manual_data:73] Loaded X_train shape=(8000, 8), X_test shape=(2000, 8)
+[2026-10-26 22:28:29] [INFO] [run_phase2:run_phase2_pipeline:339] Configured cv_folds=2, n_jobs=-1 for mode='fast'
+[2026-10-26 22:28:44] [INFO] [run_phase2:run_phase2_pipeline:428] Saved tuning comparison table to D:\AutoML_XAI\results\tuning_comparison.csv
+[2026-10-26 22:28:44] [INFO] [run_phase2:run_phase2_pipeline:459] Saved phase2_best_model.json: Baseline Random Forest
+[2026-10-26 22:28:44] [INFO] [run_phase2:run_phase2_pipeline:469] Saved best_params.json
+[2026-10-26 22:28:47] [INFO] [run_phase2:run_phase2_pipeline:501] All Phase 2 plots generated and mirrored to reports/screenshots/
+[2026-10-26 22:28:47] [INFO] [run_phase2:run_phase2_pipeline:541] Saved results/phase2_metadata.json
+[2026-10-26 22:28:47] [INFO] [run_phase2:generate_phase2_summary_md:319] Generated Phase 2 summary markdown at D:\AutoML_XAI\results\phase2_summary.md
+[2026-10-26 22:28:47] [INFO] [run_phase2:generate_academic_report_section:289] Generated academic report section at D:\AutoML_XAI\reports\automl_phase2_results.md
+[2026-10-26 22:30:00] [INFO] [run_phase2:run_phase2_pipeline:328] ======================================================================
+[2026-10-26 22:30:00] [INFO] [run_phase2:run_phase2_pipeline:329] STARTING PHASE 2: BASELINE & HYPERPARAMETER TUNING (MODE=FAST)
+[2026-10-26 22:30:00] [INFO] [run_phase2:run_phase2_pipeline:330] ======================================================================
+[2026-10-26 22:30:00] [INFO] [run_phase2:load_phase1_manual_data:59] Loading datasets: D:\AutoML_XAI\data\processed\train_manual.csv and D:\AutoML_XAI\data\processed\test_manual.csv...
+[2026-10-26 22:30:00] [INFO] [run_phase2:load_phase1_manual_data:73] Loaded X_train shape=(8000, 8), X_test shape=(2000, 8)
+[2026-10-26 22:30:00] [INFO] [run_phase2:run_phase2_pipeline:340] Configured cv_folds=2, n_jobs=-1 for mode='fast'
+[2026-10-26 22:30:14] [INFO] [run_phase2:run_phase2_pipeline:429] Saved tuning comparison table to D:\AutoML_XAI\results\tuning_comparison.csv
+[2026-10-26 22:30:14] [INFO] [run_phase2:run_phase2_pipeline:460] Saved phase2_best_model.json: Baseline Random Forest
+[2026-10-26 22:30:14] [INFO] [run_phase2:run_phase2_pipeline:470] Saved best_params.json
+[2026-10-26 22:30:16] [INFO] [run_phase2:run_phase2_pipeline:502] All Phase 2 plots generated and mirrored to reports/screenshots/
+[2026-10-26 22:30:16] [INFO] [run_phase2:run_phase2_pipeline:542] Saved results/phase2_metadata.json
+[2026-10-26 22:30:16] [INFO] [run_phase2:generate_phase2_summary_md:320] Generated Phase 2 summary markdown at D:\AutoML_XAI\results\phase2_summary.md
+[2026-10-26 22:30:16] [INFO] [run_phase2:generate_academic_report_section:290] Generated academic report section at D:\AutoML_XAI\reports\automl_phase2_results.md

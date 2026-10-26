@@ -1,0 +1,29 @@
+{
+    "phase": "phase2",
+    "mode": "fast",
+    "timestamp": "2026-10-26T17:00:16.356141Z",
+    "random_seed": 42,
+    "target_column": "machine_failure",
+    "primary_metric": "f1",
+    "train_rows": 8000,
+    "test_rows": 2000,
+    "positive_class_percentage_train": 3.39,
+    "positive_class_percentage_test": 3.4,
+    "package_versions": {
+        "scikit-learn": "1.9.1",
+        "optuna": "5.0.0",
+        "pandas": "3.1.0",
+        "numpy": "2.4.6",
+        "matplotlib": "3.11.2",
+        "seaborn": "0.13.2"
+    },
+    "fast_mode_warning": "These are fast smoke-test results. For final report screenshots, rerun with --mode final.",
+    "command_used": ".venv\\Scripts\\python scripts/run_phase2.py --mode fast",
+    "assumptions": [
+        "Random Forest Classifier baseline utilized with class_weight='balanced' to handle ~3.39% minority failure class.",
+        "Stratified K-fold cross-validation performed strictly on train_manual.csv to ensure no test data leakage.",
+        "Evaluation on test_manual.csv conducted exactly once per method on the final refitted estimator.",
+        "Fast mode uses 2 CV folds and lightweight search spaces for rapid execution; final mode uses 5 folds and wider spaces."
+    ],
+    "installation_issues": "None. Scikit-learn and Optuna installed cleanly into .venv."
+}

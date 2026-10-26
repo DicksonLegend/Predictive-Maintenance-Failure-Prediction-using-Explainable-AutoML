@@ -1,0 +1,2 @@
+method,cv_f1_mean,cv_f1_std,test_f1,test_roc_auc,test_precision,test_recall,test_accuracy,training_time_seconds,best_params
+Baseline Random Forest,0.5936,0.0574,0.7132,0.9587,0.7541,0.6765,0.9815,3.0548,"{'n_estimators': 100, 'max_depth': None, 'class_weight': 'balanced', 'random_state': 42}"
