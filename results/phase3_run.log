@@ -1,0 +1,57 @@
+[2026-10-26 23:19:36] [INFO] [run_phase3:run_phase3_pipeline:241] ======================================================================
+[2026-10-26 23:19:36] [INFO] [run_phase3:run_phase3_pipeline:242] STARTING PHASE 3: AUTOML COMPARISON & CRITICAL EVALUATION (MODE=FAST)
+[2026-10-26 23:19:36] [INFO] [run_phase3:run_phase3_pipeline:243] Fixed Time Budget: 60 seconds | Fast Sample Rows: 3000
+[2026-10-26 23:19:36] [INFO] [run_phase3:run_phase3_pipeline:244] ======================================================================
+[2026-10-26 23:20:45] [ERROR] [run_phase3:run_phase3_pipeline:285] AutoGluon experiment failed: 'TabularPredictor' object has no attribute 'get_model_best'
+Traceback (most recent call last):
+  File "D:\AutoML_XAI\scripts\run_phase3.py", line 272, in run_phase3_pipeline
+    ag_model, ag_metrics = run_autogluon_experiment(
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AutoML_XAI\src\automl\autogluon_runner.py", line 72, in run_autogluon_experiment
+    best_model_name = predictor.get_model_best()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TabularPredictor' object has no attribute 'get_model_best'
+
+[2026-10-26 23:20:45] [INFO] [run_phase3:run_phase3_pipeline:292] Attempting PyCaret fallback runner...
+[2026-10-26 23:20:45] [CRITICAL] [run_phase3:run_phase3_pipeline:309] Fallback PyCaret also failed: No module named 'pycaret'
+Traceback (most recent call last):
+  File "D:\AutoML_XAI\scripts\run_phase3.py", line 272, in run_phase3_pipeline
+    ag_model, ag_metrics = run_autogluon_experiment(
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AutoML_XAI\src\automl\autogluon_runner.py", line 72, in run_autogluon_experiment
+    best_model_name = predictor.get_model_best()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TabularPredictor' object has no attribute 'get_model_best'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AutoML_XAI\scripts\run_phase3.py", line 294, in run_phase3_pipeline
+    pyc_model, pyc_metrics = run_pycaret_experiment(
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AutoML_XAI\src\automl\fallback_runner.py", line 33, in run_pycaret_experiment
+    from pycaret.classification import (
+ModuleNotFoundError: No module named 'pycaret'
+
+[2026-10-26 23:25:40] [INFO] [run_phase3:run_phase3_pipeline:241] ======================================================================
+[2026-10-26 23:25:40] [INFO] [run_phase3:run_phase3_pipeline:242] STARTING PHASE 3: AUTOML COMPARISON & CRITICAL EVALUATION (MODE=FAST)
+[2026-10-26 23:25:40] [INFO] [run_phase3:run_phase3_pipeline:243] Fixed Time Budget: 60 seconds | Fast Sample Rows: 3000
+[2026-10-26 23:25:40] [INFO] [run_phase3:run_phase3_pipeline:244] ======================================================================
+[2026-10-26 23:26:50] [INFO] [run_phase3:run_phase3_pipeline:344] Saved AutoML comparison to D:\AutoML_XAI\results\automl_comparison.csv
+[2026-10-26 23:26:50] [INFO] [run_phase3:run_phase3_pipeline:381] Saved Phase 3 full comparison to D:\AutoML_XAI\results\phase3_full_comparison.csv
+[2026-10-26 23:26:50] [INFO] [run_phase3:run_phase3_pipeline:419] Saved phase3_best_model.json (FLAML - lgbm)
+[2026-10-26 23:26:50] [INFO] [run_phase3:run_phase3_pipeline:431] Saved test predictions to D:\AutoML_XAI\results\phase3_test_predictions.csv
+[2026-10-26 23:27:53] [INFO] [run_phase3:run_phase3_pipeline:491] Saved interpretability notes to D:\AutoML_XAI\results\interpretability_notes.csv
+[2026-10-26 23:27:53] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_model_comparison_f1.png -> phase3_model_comparison_f1.png
+[2026-10-26 23:27:53] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_time_comparison.png -> phase3_time_comparison.png
+[2026-10-26 23:27:53] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_full_comparison.png -> phase3_full_comparison.png
+[2026-10-26 23:27:53] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: overfitting_check.png -> phase3_overfitting_check.png
+[2026-10-26 23:27:53] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: leakage_metric_comparison.png -> phase3_leakage_metric_comparison.png
+[2026-10-26 23:27:53] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: leakage_feature_importance.png -> phase3_leakage_feature_importance.png
+[2026-10-26 23:27:53] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_class_distribution.png -> phase3_class_distribution.png
+[2026-10-26 23:27:53] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_confusion_matrix_best_model.png -> phase3_confusion_matrix_best_model.png
+[2026-10-26 23:27:53] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_precision_recall_curve.png -> phase3_precision_recall_curve.png
+[2026-10-26 23:27:53] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: group_performance.png -> phase3_group_performance.png
+[2026-10-26 23:27:53] [INFO] [run_phase3:run_phase3_pipeline:538] Saved results/phase3_metadata.json
+[2026-10-26 23:27:53] [INFO] [run_phase3:run_phase3_pipeline:559] Saved results/phase3_summary.md
+[2026-10-26 23:27:53] [INFO] [run_phase3:generate_academic_report_phase3:230] Generated academic report section at D:\AutoML_XAI\reports\automl_phase3_results.md

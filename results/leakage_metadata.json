@@ -1,0 +1,10 @@
+{
+    "leaky_feature_name": "post_failure_inspection_flag",
+    "leak_probability_positive": 0.92,
+    "leak_probability_negative": 0.04,
+    "random_seed": 42,
+    "tool_used": "FLAML",
+    "mode": "fast",
+    "importance_method_used": "Native Feature Importance",
+    "warning_message": "CRITICAL WARNING: The feature 'post_failure_inspection_flag' was artificially synthesized to simulate post-event telemetry leakage. AutoML models exploit this feature heavily, producing artificially elevated F1-scores."
+}

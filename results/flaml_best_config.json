@@ -1,0 +1,15 @@
+{
+    "best_estimator": "lgbm",
+    "best_validation_f1": 0.6555,
+    "time_to_find_best_model_seconds": 45.897,
+    "hyperparameters": {
+        "n_estimators": 8,
+        "num_leaves": 154,
+        "min_child_samples": 6,
+        "learning_rate": 0.3103077456277504,
+        "log_max_bin": 9,
+        "colsample_bytree": 0.9997637451628935,
+        "reg_alpha": 0.0026553446508049534,
+        "reg_lambda": 0.001113695574877631
+    }
+}

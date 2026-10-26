@@ -1,0 +1,16 @@
+{
+    "best_tool": "FLAML",
+    "best_model_name": "lgbm",
+    "model_path": "models/flaml_model.pkl",
+    "test_f1": 0.6281,
+    "test_roc_auc": 0.9171,
+    "test_pr_auc": 0.6866,
+    "test_precision": 0.717,
+    "test_recall": 0.5588,
+    "test_accuracy": 0.9775,
+    "training_time_seconds": 60.03,
+    "requested_time_budget_seconds": 60,
+    "mode": "fast",
+    "timestamp": "2026-10-26T17:56:50.767054Z",
+    "notes": "Winning model selected based on highest test F1-score (0.6281)."
+}

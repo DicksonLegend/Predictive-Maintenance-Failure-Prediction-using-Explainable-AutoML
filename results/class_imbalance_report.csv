@@ -1,0 +1,2 @@
+train_positive_count,train_negative_count,train_positive_percentage,test_positive_count,test_negative_count,test_positive_percentage,tn,fp,fn,tp,selected_model_f1,selected_model_recall,selected_model_precision,selected_model_pr_auc
+102,2898,3.4,68,1932,3.4,1917,15,30,38,0.6281,0.5588,0.717,0.6866

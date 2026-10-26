@@ -32,3 +32,4 @@ models/*.onnx
 
 # Autogluon models directory
 AutogluonModels/
+models/autogluon_predictor/
