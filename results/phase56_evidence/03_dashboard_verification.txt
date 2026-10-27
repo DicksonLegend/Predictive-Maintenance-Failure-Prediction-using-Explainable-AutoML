@@ -1,0 +1,21 @@
+﻿Total panels found: 8
+Panel 1 (API Status): datasource uid = prometheus
+   Target 1: datasource uid = prometheus
+Panel 2 (Total Predictions): datasource uid = prometheus
+   Target 1: datasource uid = prometheus
+Panel 3 (Current Request Rate): datasource uid = prometheus
+   Target 1: datasource uid = prometheus
+Panel 4 (P95 Latency): datasource uid = prometheus
+   Target 1: datasource uid = prometheus
+Panel 5 (HTTP Request Volume by Handler & Status): datasource uid = prometheus
+   Target 1: datasource uid = prometheus
+Panel 6 (Latency Distribution (P50 vs P95)): datasource uid = prometheus
+   Target 1: datasource uid = prometheus
+   Target 2: datasource uid = prometheus
+Panel 7 (Machine Failure Predictions by Risk Level): datasource uid = prometheus
+   Target 1: datasource uid = prometheus
+Panel 8 (HTTP Error Rate (5xx %)): datasource uid = prometheus
+   Target 1: datasource uid = prometheus
+Dashboard time: {'from': 'now-1h', 'to': 'now'}
+Dashboard refresh: 10s
+All panels assert passed: True

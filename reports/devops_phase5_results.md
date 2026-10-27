@@ -338,3 +338,48 @@ Full regression suites across all project phases were executed and verified:
 - **Total Validated Checks:** **197 / 197 PASS**
 
 ---
+
+## 18. Phase 5.6 — Monitoring Visualization Fix & Verification
+
+### 18.1 Symptom
+Following the successful Phase 5.5 deployment, the Prometheus server successfully ingested metrics and alert rules evaluated cleanly. However, upon opening the Grafana dashboard `xai-ops-main` at `http://localhost:3000`, all 8 visual panels exhibited a "No data" error state accompanied by red panel error triangles, indicating that every individual query was failing within Grafana's query broker rather than merely returning empty sets.
+
+### 18.2 Root Cause Analysis
+Diagnostic investigation revealed finding **C) both**:
+1. **Cause A (Panel Datasource UID Mismatch):**
+   The datasource provisioning specification (`monitoring/grafana/provisioning/datasources/prometheus.yml`) did not declare an explicit `uid`. Consequently, Grafana dynamically generated an internal hash UID (`PBFA97CFB590B2093`) upon first initialization. However, the pre-built dashboard JSON (`xai-operations.json`) explicitly bound all 8 panels and target expressions to `"uid": "Prometheus"` (capitalized string). Because no datasource existed under UID `"Prometheus"`, Grafana rejected all panel queries.
+2. **Cause B (Unreachable Datasource URL from Inside Container):**
+   The datasource URL was declared as `http://prometheus:9090`. When tested from within the Grafana container (`xai-grafana-tf`), executing `wget -qO- 'http://prometheus:9090/api/v1/query?query=up'` failed with `wget: bad address 'prometheus:9090'`. Because Terraform provisioned the container as `xai-prometheus-tf` without a network alias on the `xai_monitoring` bridge network, DNS lookup for hostname `prometheus` failed. Reaching `http://host.docker.internal:9090` succeeded immediately with HTTP 200.
+
+### 18.3 Minimal Fix Applied
+1. **Datasource Provisioning (`monitoring/grafana/provisioning/datasources/prometheus.yml`):**
+   - Configured `deleteDatasources` block to purge stale datasource entries from Grafana's persistent SQLite database.
+   - Assigned explicit `uid: prometheus`.
+   - Set URL to `http://host.docker.internal:9090` (and `isDefault: true`).
+2. **Dashboard Model (`monitoring/grafana/dashboards/xai-operations.json`):**
+   - Standardized every panel and every target query expression to reference `"datasource": {"type": "prometheus", "uid": "prometheus"}`.
+   - Set default time range: `"time": {"from": "now-1h", "to": "now"}` and dynamic refresh: `"refresh": "10s"`.
+   - Incremented schema version to `2`.
+3. **Container Reload:**
+   - Restarted `xai-grafana-tf` without rebuilding container images. Confirmed `/api/health` returned HTTP 200 `database: ok`.
+
+### 18.4 API Verification & Live Proof
+1. **Datasource Status:** `GET /api/datasources` confirmed `id: 3`, `uid: "prometheus"`, `url: "http://host.docker.internal:9090"`, and `isDefault: true`.
+2. **Direct Grafana Query Broker Execution (`POST /api/ds/query`):**
+   - Metric `up`: HTTP 200, 2 numeric time-series frames with 91 data rows each.
+   - Metric `sum(xai_predictions_total)`: HTTP 200, 1 numeric frame, 91 data rows.
+   - Metric `latency_p95` (`http_request_duration_seconds_bucket`): HTTP 200, 1 numeric frame, 91 data rows, verified value `0.095s`.
+3. **Live Traffic Generation & Metric Delta:**
+   - Generated 200 synthetic inference requests using `generate_load.py --requests 200 --concurrency 6`.
+   - Achieved 100% HTTP 200 OK responses with 75.60 req/s throughput.
+   - Prometheus metric `sum(xai_predictions_total)` moved from **700 to 900** (delta: **+200**).
+   - Re-queried via Grafana `/api/ds/query`: confirmed value **900** immediately visible through Grafana's query broker.
+4. **Live Alert Demonstration:**
+   - Temporarily scaled API deployment to 0 replicas: `kubectl scale deployment/xai-api --replicas=0`.
+   - Prometheus detected target failure and triggered `alertname: "ApiDown"` (`state: "pending"` -> active). Captured to `results/phase56_evidence/04_alert_firing.json`.
+   - Immediately restored deployment to 2 replicas: `kubectl scale deployment/xai-api --replicas=2`. Pods rolled out cleanly.
+   - Prometheus targets re-established `health: "up"`, and alert resolved cleanly (`alerts: []`).
+5. **Regression Verification:**
+   - `scripts/validate_phase5.py`: **73/73 CHECKS PASSED** (100% PASS).
+   - `pytest tests/ -q`: **11/11 PASSED** (100% PASS).
+

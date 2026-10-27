@@ -1,0 +1,6 @@
+﻿--- Predictions Metric Delta ---
+Before Load: 700
+Requests Generated: 200 (100% 200 OK)
+After Load: 900
+Delta: +200
+Grafana ds/query: Verified 900 via Grafana engine

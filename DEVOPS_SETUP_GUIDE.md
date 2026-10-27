@@ -266,10 +266,14 @@ If Terraform is not installed on your system, launch the identical stack using D
 
 ## Section I: Load Generation & Grafana Dashboard Inspection
 
-1. **Generate Synthetic Telemetry Load:**
+1. **Generate Synthetic Telemetry Load (Run once before capturing Grafana screenshot):**
    ```powershell
    .venv\Scripts\python scripts/generate_load.py --requests 500 --concurrency 10
    ```
+   > [!IMPORTANT]
+   > **Prerequisite for Grafana Screenshot (`phase5_grafana_dashboard.png`):**
+   > Always run `generate_load.py` once prior to capturing the dashboard screenshot. This generates live HTTP request volume, populates the inference counter (`sum(xai_predictions_total)`), and generates realistic latency histogram distributions for the visual panels.
+
 2. **Access Grafana Dashboard:**
    - URL: [http://localhost:3000](http://localhost:3000)
    - Login: `admin` / `admin`
@@ -323,5 +327,6 @@ Capture the following 16 screenshots and place them in `reports/screenshots/` fo
 | 12 | `phase5_terraform_plan.png` | Terminal showing `terraform plan` clean execution output | Sec 8: Infrastructure as Code |
 | 13 | `phase5_prometheus_targets.png` | Prometheus Web UI at `/targets` showing `xai-api` state UP | Sec 9: Monitoring |
 | 14 | `phase5_prometheus_alerts.png` | Prometheus Web UI at `/alerts` showing configured alert rules | Sec 9: Monitoring |
-| 15 | `phase5_grafana_dashboard.png` | Full Grafana dashboard showing live metrics under load | Sec 9: Monitoring |
+| 15 | `phase5_grafana_dashboard.png` | Full Grafana dashboard showing live metrics under load (run `generate_load.py` once prior to capture) | Sec 9: Monitoring |
 | 16 | `phase5_validation_pass.png` | Terminal showing `validate_phase5.py` with OVERALL STATUS: PASS | Sec 13: Rubric Matrix |
+
