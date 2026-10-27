@@ -1,17 +1,19 @@
 {
   "top_global_features": [
     "torque",
+    "rotational_speed",
     "tool_wear",
-    "air_temp",
-    "rotational_speed"
+    "air_temp"
   ],
   "feature_importances": {
-    "torque": 0.3845618712356241,
-    "tool_wear": 0.35883435727694624,
-    "air_temp": 0.3449398451113601,
-    "rotational_speed": 0.3228333394030093,
-    "process_temp": 0.13916520998992646,
-    "type": 0.019415460968268974
+    "torque": 0.16197069070536166,
+    "rotational_speed": 0.14007625591045492,
+    "tool_wear": 0.10849875681657052,
+    "air_temp": 0.07961443586353459,
+    "process_temp": 0.034831798153582325,
+    "type_L": 0.011980129974346589,
+    "type_M": 0.0047254152195435615,
+    "type_H": 0.002152542190396181
   },
   "feature_interpretations": {
     "torque": "Primary driver of mechanical overload failure; higher torque disproportionately escalates failure probability.",
@@ -19,7 +21,7 @@
     "rotational_speed": "Rotational velocity dynamics; lower RPM under high torque triggers power strain and thermal dissipation failure.",
     "process_temp": "Indicates thermodynamic thermal equilibrium; sustained process temperature differential signals cooling system breakdown."
   },
-  "explanation_model_used": "shap_direct",
-  "surrogate_used": false,
-  "background_samples": 50
+  "explanation_model_used": "shap_surrogate",
+  "surrogate_used": true,
+  "background_samples": 200
 }

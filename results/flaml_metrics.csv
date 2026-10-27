@@ -1,2 +1,2 @@
 method,tool,best_model,cv_or_validation_f1,test_f1,test_roc_auc,test_pr_auc,test_precision,test_recall,test_accuracy,training_time_seconds,requested_time_budget_seconds,preprocessing_notes,interpretability_notes
-FLAML AutoML,FLAML,lgbm,0.6555,0.6281,0.9171,0.6866,0.717,0.5588,0.9775,60.03,60,"Native tabular encoding with tree learners (LightGBM, XGBoost, CatBoost, ExtraTrees, RF)",Moderate (Gradient Boosted Tree / Tree Ensemble)
+FLAML AutoML,FLAML,rf,0.7698,0.768,0.9535,0.8268,0.8421,0.7059,0.9855,300.01,300,"Native tabular encoding with tree learners (LightGBM, XGBoost, CatBoost, ExtraTrees, RF)",Moderate (Gradient Boosted Tree / Tree Ensemble)

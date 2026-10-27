@@ -1,18 +1,18 @@
-2026-10-27 12:47:18,872 [INFO] ==================================================
-2026-10-27 12:47:18,874 [INFO] STARTING PHASE 4 MASTER RUNNER — MODE: FAST
-2026-10-27 12:47:18,874 [INFO] ==================================================
-2026-10-27 12:47:18,874 [INFO] [STEP 1/5] Generating Global Tabular Interpretability Artifacts (bg=50)...
-2026-10-27 12:47:20,276 [INFO] Global artifacts generated. Top features: ['torque', 'tool_wear', 'air_temp', 'rotational_speed']
-2026-10-27 12:47:20,276 [INFO] [STEP 2/5] Generating Local Sample Interpretability Cases (n=3)...
-2026-10-27 12:47:28,377 [INFO] Local sample cases generated: 3 records.
-2026-10-27 12:47:28,377 [INFO] [STEP 3/5] Generating Multi-Modal NLP and Spatial Image Saliency Artifacts...
-2026-10-27 12:47:29,816 [INFO] Multi-modal artifacts generated successfully.
-2026-10-27 12:47:29,816 [INFO] [STEP 4/5] Compiling Frontend Single Page Application...
-2026-10-27 12:47:32,595 [INFO] Frontend compilation finished. Active mode: react
-2026-10-27 12:47:32,596 [INFO] [STEP 5/5] Executing API Automated Test Suite (FastAPI TestClient)...
-2026-10-27 12:47:32,768 [INFO] All core API endpoints tested and verified (100%% PASS).
-2026-10-27 12:47:33,064 [INFO] Saved metadata to D:\AutoML_XAI\results\phase4_metadata.json
-2026-10-27 12:47:33,064 [INFO] Saved error log to D:\AutoML_XAI\results\phase4_error_log.json
-2026-10-27 12:47:33,064 [INFO] ==================================================
-2026-10-27 12:47:33,064 [INFO] PHASE 4 EXECUTION COMPLETE — STATUS: SUCCESS
-2026-10-27 12:47:33,064 [INFO] ==================================================
+2026-10-27 15:37:50,706 [INFO] ==================================================
+2026-10-27 15:37:50,707 [INFO] STARTING PHASE 4 MASTER RUNNER — MODE: FINAL
+2026-10-27 15:37:50,707 [INFO] ==================================================
+2026-10-27 15:37:50,707 [INFO] [STEP 1/5] Generating Global Tabular Interpretability Artifacts (bg=200)...
+2026-10-27 15:37:52,357 [INFO] Global artifacts generated. Top features: ['torque', 'rotational_speed', 'tool_wear', 'air_temp']
+2026-10-27 15:37:52,357 [INFO] [STEP 2/5] Generating Local Sample Interpretability Cases (n=5)...
+2026-10-27 15:38:01,948 [INFO] Local sample cases generated: 5 records.
+2026-10-27 15:38:01,948 [INFO] [STEP 3/5] Generating Multi-Modal NLP and Spatial Image Saliency Artifacts...
+2026-10-27 15:38:03,123 [INFO] Multi-modal artifacts generated successfully.
+2026-10-27 15:38:03,123 [INFO] [STEP 4/5] Compiling Frontend Single Page Application...
+2026-10-27 15:38:05,165 [INFO] Frontend compilation finished. Active mode: react
+2026-10-27 15:38:05,165 [INFO] [STEP 5/5] Executing API Automated Test Suite (FastAPI TestClient)...
+2026-10-27 15:38:05,344 [INFO] All core API endpoints tested and verified (100%% PASS).
+2026-10-27 15:38:05,359 [INFO] Saved metadata to D:\AutoML_XAI\results\phase4_metadata.json
+2026-10-27 15:38:05,359 [INFO] Saved error log to D:\AutoML_XAI\results\phase4_error_log.json
+2026-10-27 15:38:05,360 [INFO] ==================================================
+2026-10-27 15:38:05,360 [INFO] PHASE 4 EXECUTION COMPLETE — STATUS: SUCCESS
+2026-10-27 15:38:05,360 [INFO] ==================================================

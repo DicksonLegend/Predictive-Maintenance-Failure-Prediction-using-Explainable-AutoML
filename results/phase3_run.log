@@ -55,3 +55,25 @@ ModuleNotFoundError: No module named 'pycaret'
 [2026-10-26 23:27:53] [INFO] [run_phase3:run_phase3_pipeline:538] Saved results/phase3_metadata.json
 [2026-10-26 23:27:53] [INFO] [run_phase3:run_phase3_pipeline:559] Saved results/phase3_summary.md
 [2026-10-26 23:27:53] [INFO] [run_phase3:generate_academic_report_phase3:230] Generated academic report section at D:\AutoML_XAI\reports\automl_phase3_results.md
+[2026-10-27 15:04:11] [INFO] [run_phase3:run_phase3_pipeline:242] ======================================================================
+[2026-10-27 15:04:11] [INFO] [run_phase3:run_phase3_pipeline:243] STARTING PHASE 3: AUTOML COMPARISON & CRITICAL EVALUATION (MODE=FINAL)
+[2026-10-27 15:04:11] [INFO] [run_phase3:run_phase3_pipeline:244] Fixed Time Budget: 300 seconds | Fast Sample Rows: 3000
+[2026-10-27 15:04:11] [INFO] [run_phase3:run_phase3_pipeline:245] ======================================================================
+[2026-10-27 15:09:23] [INFO] [run_phase3:run_phase3_pipeline:345] Saved AutoML comparison to D:\AutoML_XAI\results\automl_comparison.csv
+[2026-10-27 15:09:23] [INFO] [run_phase3:run_phase3_pipeline:382] Saved Phase 3 full comparison to D:\AutoML_XAI\results\phase3_full_comparison.csv
+[2026-10-27 15:09:23] [INFO] [run_phase3:run_phase3_pipeline:420] Saved phase3_best_model.json (AutoGluon - WeightedEnsemble_L2)
+[2026-10-27 15:09:23] [INFO] [run_phase3:run_phase3_pipeline:432] Saved test predictions to D:\AutoML_XAI\results\phase3_test_predictions.csv
+[2026-10-27 15:14:27] [INFO] [run_phase3:run_phase3_pipeline:492] Saved interpretability notes to D:\AutoML_XAI\results\interpretability_notes.csv
+[2026-10-27 15:14:28] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_model_comparison_f1.png -> phase3_model_comparison_f1.png
+[2026-10-27 15:14:28] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_time_comparison.png -> phase3_time_comparison.png
+[2026-10-27 15:14:28] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_full_comparison.png -> phase3_full_comparison.png
+[2026-10-27 15:14:28] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: overfitting_check.png -> phase3_overfitting_check.png
+[2026-10-27 15:14:28] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: leakage_metric_comparison.png -> phase3_leakage_metric_comparison.png
+[2026-10-27 15:14:28] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: leakage_feature_importance.png -> phase3_leakage_feature_importance.png
+[2026-10-27 15:14:28] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_class_distribution.png -> phase3_class_distribution.png
+[2026-10-27 15:14:28] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_confusion_matrix_best_model.png -> phase3_confusion_matrix_best_model.png
+[2026-10-27 15:14:28] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: phase3_precision_recall_curve.png -> phase3_precision_recall_curve.png
+[2026-10-27 15:14:28] [INFO] [run_phase3:mirror_plots_to_screenshots:125] Mirrored plot: group_performance.png -> phase3_group_performance.png
+[2026-10-27 15:14:28] [INFO] [run_phase3:run_phase3_pipeline:539] Saved results/phase3_metadata.json
+[2026-10-27 15:14:28] [INFO] [run_phase3:run_phase3_pipeline:560] Saved results/phase3_summary.md
+[2026-10-27 15:14:28] [INFO] [run_phase3:generate_academic_report_phase3:230] Generated academic report section at D:\AutoML_XAI\reports\automl_phase3_results.md

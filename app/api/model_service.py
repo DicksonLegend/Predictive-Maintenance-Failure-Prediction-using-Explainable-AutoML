@@ -52,16 +52,17 @@ class ModelService:
                 model_rel_path = p3_meta.get("model_path")
                 model_abs_path = PROJECT_ROOT / model_rel_path if model_rel_path else None
                 if model_abs_path and model_abs_path.exists():
-                    model = joblib.load(model_abs_path)
-                    if hasattr(model, "predict_proba"):
+                    if model_abs_path.is_dir():
+                        from autogluon.tabular import TabularPredictor
+                        model = TabularPredictor.load(str(model_abs_path))
                         self.served_model = model
                         self.model_info = {
-                            "served_model_source": "Phase 3 AutoML (FLAML)",
-                            "served_model_name": f"{p3_meta.get('best_tool', 'FLAML')} - {p3_meta.get('best_model_name', 'LightGBM')}",
+                            "served_model_source": f"Phase 3 AutoML ({p3_meta.get('best_tool', 'AutoGluon')})",
+                            "served_model_name": f"{p3_meta.get('best_tool', 'AutoGluon')} - {p3_meta.get('best_model_name', 'WeightedEnsemble_L2')}",
                             "served_model_path": str(model_rel_path),
                             "served_model_type": type(model).__name__,
-                            "explanation_model_type": "TreeExplainer (LightGBM estimator)",
-                            "surrogate_used": False,
+                            "explanation_model_type": "Surrogate TreeExplainer (Random Forest)",
+                            "surrogate_used": True,
                             "metrics": {
                                 "f1": p3_meta.get("test_f1"),
                                 "roc_auc": p3_meta.get("test_roc_auc"),
@@ -69,10 +70,32 @@ class ModelService:
                                 "recall": p3_meta.get("test_recall"),
                                 "accuracy": p3_meta.get("test_accuracy"),
                             },
-                            "reason_for_selection": "Highest test F1-score among benchmarked AutoML engines in Phase 3."
+                            "reason_for_selection": f"Highest test F1-score ({p3_meta.get('test_f1')}) among benchmarked AutoML engines in Phase 3."
                         }
-                        logger.info("Successfully loaded Phase 3 best model: %s", self.model_info["served_model_name"])
+                        logger.info("Successfully loaded Phase 3 AutoGluon model: %s", self.model_info["served_model_name"])
                         return
+                    else:
+                        model = joblib.load(model_abs_path)
+                        if hasattr(model, "predict_proba"):
+                            self.served_model = model
+                            self.model_info = {
+                                "served_model_source": f"Phase 3 AutoML ({p3_meta.get('best_tool', 'FLAML')})",
+                                "served_model_name": f"{p3_meta.get('best_tool', 'FLAML')} - {p3_meta.get('best_model_name', 'LightGBM')}",
+                                "served_model_path": str(model_rel_path),
+                                "served_model_type": type(model).__name__,
+                                "explanation_model_type": "TreeExplainer (LightGBM estimator)",
+                                "surrogate_used": False,
+                                "metrics": {
+                                    "f1": p3_meta.get("test_f1"),
+                                    "roc_auc": p3_meta.get("test_roc_auc"),
+                                    "precision": p3_meta.get("test_precision"),
+                                    "recall": p3_meta.get("test_recall"),
+                                    "accuracy": p3_meta.get("test_accuracy"),
+                                },
+                                "reason_for_selection": "Highest test F1-score among benchmarked AutoML engines in Phase 3."
+                            }
+                            logger.info("Successfully loaded Phase 3 best model: %s", self.model_info["served_model_name"])
+                            return
             except Exception as e:
                 logger.warning("Failed to load Phase 3 best model: %s. Falling back to Phase 2.", e)
 
@@ -163,7 +186,13 @@ class ModelService:
     def predict_probability(self, sensor_input: SensorInput) -> float:
         """Computes failure probability P(machine_failure=1) for a given sensor reading."""
         df = self.prepare_input_dataframe(sensor_input)
-        proba = self.served_model.predict_proba(df)[0][1]
+        res = self.served_model.predict_proba(df)
+        if isinstance(res, pd.DataFrame):
+            proba = float(res.iloc[0, 1])
+        elif isinstance(res, np.ndarray):
+            proba = float(res[0][1]) if res.shape[1] > 1 else float(res[0][0])
+        else:
+            proba = float(res)
         return float(np.clip(proba, 0.0, 1.0))
 
     def predict(self, sensor_input: SensorInput) -> PredictionResponse:

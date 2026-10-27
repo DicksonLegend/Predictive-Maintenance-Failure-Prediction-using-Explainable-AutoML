@@ -1,2 +1,2 @@
 method,best_cv_f1,cv_f1_std,test_f1,test_roc_auc,test_precision,test_recall,test_accuracy,training_time_seconds,best_params
-Optuna Random Forest,0.5847847092927341,0.050976880111239464,0.5976,0.9641,0.5104,0.7206,0.967,1.967195000150241,"{'n_estimators': 100, 'max_depth': 10, 'min_samples_split': 2, 'min_samples_leaf': 1}"
+Optuna Random Forest,0.6702701137380307,0.015453638455382439,0.6757,0.9704,0.625,0.7353,0.976,28.20178440003656,"{'n_estimators': 300, 'max_depth': None, 'min_samples_split': 5, 'min_samples_leaf': 1}"

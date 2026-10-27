@@ -3,13 +3,13 @@
     "model_path": "models/baseline_rf.pkl",
     "test_f1": 0.7132,
     "test_roc_auc": 0.9587,
-    "training_time_seconds": 3.0548,
+    "training_time_seconds": 4.2698,
     "best_params": {
         "n_estimators": 100,
         "max_depth": null,
         "class_weight": "balanced",
         "random_state": 42
     },
-    "phase2_mode": "fast",
-    "timestamp": "2026-10-26T17:00:14.581019Z"
+    "phase2_mode": "final",
+    "timestamp": "2026-10-27T09:28:39.550320Z"
 }

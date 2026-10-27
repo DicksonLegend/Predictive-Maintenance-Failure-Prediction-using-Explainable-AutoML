@@ -1,6 +1,6 @@
 # Section 5 & 6: Manual Baseline Model and Hyperparameter Tuning
 
-**Phase Mode:** `FAST`  
+**Phase Mode:** `FINAL`  
 **Evaluation Partition:** Held-out test set (2,000 records, 20% stratified)  
 **Primary Metric:** F1-Score | **Secondary Metrics:** ROC-AUC, Precision, Recall, Accuracy  
 **Random State:** `42`  
@@ -24,27 +24,27 @@ The primary objective of Phase 2 is to establish an un-tuned manual machine lear
 - **Target:** `machine_failure` (binary indicator, positive prevalence $\approx 3.39\%$).
 
 ### 4. Validation Strategy
-- **Stratified K-Fold Cross-Validation:** Hyperparameter searches operated strictly on training partitions (2 folds) to prevent data leakage.
+- **Stratified K-Fold Cross-Validation:** Hyperparameter searches operated strictly on training partitions (5 folds) to prevent data leakage.
 - **Strict Partition Isolation:** Held-out test data (`test_manual.csv`) was accessed exactly once per method, strictly after the optimal estimator was refitted on the full training partition.
 
 ### 5. Hyperparameter Tuning Methods
 - **Grid Search:** Evaluates parameter combinations across tree depth, estimator counts, and splitting thresholds.
-- **Random Search:** Explores parameter space stochastically with a fixed budget of random iterations (5 iterations).
-- **Optuna TPE:** Employs Bayesian sequential model-based optimization to navigate promising regions of the parameter space (5 trials).
+- **Random Search:** Explores parameter space stochastically with a fixed budget of random iterations (20 iterations).
+- **Optuna TPE:** Employs Bayesian sequential model-based optimization to navigate promising regions of the parameter space (30 trials).
 
 ### 6. Results Comparison Table
 | method                      |   cv_f1_mean |   cv_f1_std |   test_f1 |   test_roc_auc |   test_precision |   test_recall |   test_accuracy |   training_time_seconds |
 |:----------------------------|-------------:|------------:|----------:|---------------:|-----------------:|--------------:|----------------:|------------------------:|
-| Baseline Random Forest      |       0.5936 |      0.0574 |    0.7132 |         0.9587 |           0.7541 |        0.6765 |          0.9815 |                  3.0548 |
-| Grid Search Random Forest   |       0.5848 |      0.051  |    0.5976 |         0.9641 |           0.5104 |        0.7206 |          0.967  |                  3.9752 |
-| Random Search Random Forest |       0.6107 |      0.0094 |    0.6541 |         0.9649 |           0.5714 |        0.7647 |          0.9725 |                  4.2831 |
-| Optuna Random Forest        |       0.5848 |      0.051  |    0.5976 |         0.9641 |           0.5104 |        0.7206 |          0.967  |                  1.9672 |
+| Baseline Random Forest      |       0.6614 |      0.0472 |    0.7132 |         0.9587 |           0.7541 |        0.6765 |          0.9815 |                  4.2698 |
+| Grid Search Random Forest   |       0.6703 |      0.0155 |    0.6757 |         0.9704 |           0.625  |        0.7353 |          0.976  |                 39.7243 |
+| Random Search Random Forest |       0.6681 |      0.0185 |    0.6803 |         0.9711 |           0.6329 |        0.7353 |          0.9765 |                 11.0867 |
+| Optuna Random Forest        |       0.6703 |      0.0155 |    0.6757 |         0.9704 |           0.625  |        0.7353 |          0.976  |                 28.2018 |
 
 ### 7. Computational Time Comparison
-- **Baseline Training Time:** `3.05 seconds`.
-- **Grid Search Wall-Clock Time:** `3.98 seconds`.
-- **Random Search Wall-Clock Time:** `4.28 seconds`.
-- **Optuna Optimization Time:** `1.97 seconds`.
+- **Baseline Training Time:** `4.27 seconds`.
+- **Grid Search Wall-Clock Time:** `39.72 seconds`.
+- **Random Search Wall-Clock Time:** `11.09 seconds`.
+- **Optuna Optimization Time:** `28.20 seconds`.
 
 ### 8. Best Method & Parameter Configuration
 - **Selected Best Method:** **`Baseline Random Forest`**

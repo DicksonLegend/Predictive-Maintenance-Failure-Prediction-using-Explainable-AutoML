@@ -1,4 +1,4 @@
 machine_type,total_samples,actual_failure_count,actual_failure_rate,predicted_failure_count,predicted_failure_rate,true_positives,false_positives,true_negatives,false_negatives,false_positive_rate,false_negative_rate,precision,recall,f1
-L,1170,38,0.0325,30,0.0256,21,9,1123,17,0.008,0.4474,0.7,0.5526,0.6176
-M,616,25,0.0406,17,0.0276,14,3,588,11,0.0051,0.44,0.8235,0.56,0.6667
-H,214,5,0.0234,6,0.028,3,3,206,2,0.0144,0.4,0.5,0.6,0.5455
+L,1170,38,0.0325,28,0.0239,25,3,1129,13,0.0027,0.3421,0.8929,0.6579,0.7576
+M,616,25,0.0406,20,0.0325,19,1,590,6,0.0017,0.24,0.95,0.76,0.8444
+H,214,5,0.0234,2,0.0093,2,0,209,3,0.0,0.6,1.0,0.4,0.5714

@@ -1,7 +1,7 @@
 {
     "phase": "phase2",
-    "mode": "fast",
-    "timestamp": "2026-10-26T17:00:16.356141Z",
+    "mode": "final",
+    "timestamp": "2026-10-27T09:28:41.437886Z",
     "random_seed": 42,
     "target_column": "machine_failure",
     "primary_metric": "f1",
@@ -12,13 +12,13 @@
     "package_versions": {
         "scikit-learn": "1.9.1",
         "optuna": "5.0.0",
-        "pandas": "3.1.0",
+        "pandas": "2.3.3",
         "numpy": "2.4.6",
         "matplotlib": "3.11.2",
         "seaborn": "0.13.2"
     },
-    "fast_mode_warning": "These are fast smoke-test results. For final report screenshots, rerun with --mode final.",
-    "command_used": ".venv\\Scripts\\python scripts/run_phase2.py --mode fast",
+    "fast_mode_warning": "Final mode results benchmarked on 5-fold cross-validation.",
+    "command_used": ".venv\\Scripts\\python scripts/run_phase2.py --mode final",
     "assumptions": [
         "Random Forest Classifier baseline utilized with class_weight='balanced' to handle ~3.39% minority failure class.",
         "Stratified K-fold cross-validation performed strictly on train_manual.csv to ensure no test data leakage.",

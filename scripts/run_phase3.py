@@ -230,12 +230,13 @@ AutoML frameworks successfully automated the end-to-end model selection and ense
     logger.info(f"Generated academic report section at {output_path}")
 
 
-def run_phase3_pipeline(mode: str = "fast") -> None:
+def run_phase3_pipeline(mode: str = "fast", time_budget: int = None) -> None:
     """Executes the complete Phase 3 pipeline."""
     set_random_seed(RANDOM_SEED)
     init_directories()
 
-    time_budget = 60 if mode == "fast" else 900
+    if time_budget is None:
+        time_budget = 60 if mode == "fast" else 300
     fast_samples = 3000
 
     logger.info("=" * 70)
@@ -597,11 +598,17 @@ def parse_args() -> argparse.Namespace:
         "--mode",
         choices=["fast", "final"],
         default="fast",
-        help="Execution mode: 'fast' (60s budget) or 'final' (900s budget)",
+        help="Execution mode: 'fast' (60s budget) or 'final' (300s budget)",
+    )
+    parser.add_argument(
+        "--time_budget",
+        type=int,
+        default=None,
+        help="Custom time budget in seconds per AutoML tool (default: 60s for fast, 300s for final)",
     )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
-    run_phase3_pipeline(mode=args.mode)
+    run_phase3_pipeline(mode=args.mode, time_budget=args.time_budget)

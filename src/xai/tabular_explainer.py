@@ -134,6 +134,22 @@ class TabularExplainerService:
                 pass
         return df_input
 
+    def _get_surrogate_features(self, sensor_input: SensorInput) -> pd.DataFrame:
+        """Transforms SensorInput into the 8 one-hot features expected by the surrogate Random Forest."""
+        raw_dict = sensor_input.model_dump()
+        row = {
+            "air_temp": raw_dict["air_temp"],
+            "process_temp": raw_dict["process_temp"],
+            "rotational_speed": raw_dict["rotational_speed"],
+            "tool_wear": raw_dict["tool_wear"],
+            "torque": raw_dict["torque"],
+            "type_H": 1 if raw_dict["type"] == "H" else 0,
+            "type_L": 1 if raw_dict["type"] == "L" else 0,
+            "type_M": 1 if raw_dict["type"] == "M" else 0,
+        }
+        cols = ['air_temp', 'process_temp', 'rotational_speed', 'tool_wear', 'torque', 'type_H', 'type_L', 'type_M']
+        return pd.DataFrame([row])[cols]
+
     def explain_instance(self, sensor_input: SensorInput) -> ExplanationResponse:
         """Generates dynamic local explanation for a single incoming telemetry record."""
         prob = model_service.predict_probability(sensor_input)
@@ -147,8 +163,11 @@ class TabularExplainerService:
             threshold=PROBABILITY_THRESHOLD
         )
 
-        df_single = model_service.prepare_input_dataframe(sensor_input)
-        X_t = self._get_transformed_features(df_single)
+        if self.explanation_method == "shap_surrogate":
+            X_t = self._get_surrogate_features(sensor_input)
+        else:
+            df_single = model_service.prepare_input_dataframe(sensor_input)
+            X_t = self._get_transformed_features(df_single)
 
         # Compute SHAP
         shap_vals = self.tree_explainer.shap_values(X_t)
@@ -224,7 +243,10 @@ class TabularExplainerService:
                         inp = SensorInput(**d)
                         dfs.append(model_service.prepare_input_dataframe(inp))
                     df_batch = pd.concat(dfs, ignore_index=True)
-                    return model_service.served_model.predict_proba(df_batch)
+                    preds = model_service.served_model.predict_proba(df_batch)
+                    if isinstance(preds, pd.DataFrame):
+                        return preds.values
+                    return np.array(preds)
 
                 lime_exp = self.lime_explainer.explain_instance(
                     np.array(row_vals),
@@ -252,8 +274,20 @@ def generate_all_global_artifacts(sample_size: int = 50) -> Dict[str, Any]:
     os.makedirs(GLOBAL_XAI_DIR, exist_ok=True)
     explainer_svc = TabularExplainerService.get_instance(bg_size=sample_size)
 
-    df_train = explainer_svc.df_train.head(sample_size)
-    X_t = explainer_svc._get_transformed_features(df_train)
+    if explainer_svc.explanation_method == "shap_surrogate":
+        train_path = DATA_PROCESSED_DIR / "train_manual.csv"
+        df_train_manual = pd.read_csv(train_path).drop(columns=["machine_failure"]).head(sample_size)
+        X_t = df_train_manual
+        surrogate, _ = model_service.get_surrogate_explainer_model()
+        estimator = surrogate
+    else:
+        df_train = explainer_svc.df_train.head(sample_size)
+        X_t = explainer_svc._get_transformed_features(df_train)
+        estimator = (
+            model_service.served_model.model.estimator
+            if hasattr(model_service.served_model, "model") and hasattr(model_service.served_model.model, "estimator")
+            else model_service.served_model
+        )
 
     # 1. SHAP values
     shap_vals = explainer_svc.tree_explainer.shap_values(X_t)
@@ -395,8 +429,11 @@ def generate_local_sample_artifacts(num_samples: int = 3) -> List[Dict[str, Any]
 
         # 1. Save local SHAP plot
         shap_plot_path = LOCAL_XAI_DIR / f"shap_local_{sid}.png"
-        df_single = model_service.prepare_input_dataframe(sensor_input)
-        X_t = explainer_svc._get_transformed_features(df_single)
+        if explainer_svc.explanation_method == "shap_surrogate":
+            X_t = explainer_svc._get_surrogate_features(sensor_input)
+        else:
+            df_single = model_service.prepare_input_dataframe(sensor_input)
+            X_t = explainer_svc._get_transformed_features(df_single)
         shap_vals = explainer_svc.tree_explainer.shap_values(X_t)
         if isinstance(shap_vals, list):
             sv = shap_vals[1][0] if len(shap_vals) > 1 else shap_vals[0][0]

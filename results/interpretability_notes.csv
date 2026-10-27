@@ -1,5 +1,5 @@
 method,model_type,interpretability_level,reason
 Phase 2 Baseline Random Forest,RandomForestClassifier,medium,Ensemble of unconstrained decision trees; individual feature importances and tree paths inspectable.
 Phase 2 Best Tuned Random Forest,RandomForestClassifier,medium,Regularized tree depth facilitates more stable tree explanations without excessive leaf fragmentation.
-Phase 3 FLAML (lgbm),lgbm,medium,Gradient boosted tree / ExtraTrees model; natively compatible with TreeSHAP and gain importance.
+Phase 3 FLAML (rf),rf,medium,Gradient boosted tree / ExtraTrees model; natively compatible with TreeSHAP and gain importance.
 Phase 3 AutoGluon (WeightedEnsemble_L2),WeightedEnsemble_L2,low,Multi-layer stacking ensemble combining heterogeneous learners; requires post-hoc model-agnostic explainers (SHAP/LIME).
