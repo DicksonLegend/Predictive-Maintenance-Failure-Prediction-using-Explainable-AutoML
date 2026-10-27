@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explainable AI Predictive Maintenance Dashboard (Static Fallback)</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --success: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 20px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    h1 { font-size: 1.5rem; font-weight: 700; color: #fff; }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .badge-fallback { background: #64748b; color: #fff; }
+    .badge-low { background: #065f46; color: #6ee7b7; border: 1px solid #10b981; }
+    .badge-med { background: #78350f; color: #fde68a; border: 1px solid #f59e0b; }
+    .badge-high { background: #7f1d1d; color: #fca5a5; border: 1px solid #ef4444; }
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .card h2 { font-size: 1.25rem; margin-bottom: 16px; color: #e2e8f0; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; font-size: 0.875rem; margin-bottom: 6px; color: var(--text-muted); }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: white;
+      font-size: 0.95rem;
+    }
+    button.submit-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    button.submit-btn:hover { background: var(--primary-hover); }
+    .result-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 6px;
+      background: #090d16;
+      border: 1px solid var(--border);
+    }
+    pre { overflow-x: auto; font-size: 0.85rem; color: #cbd5e1; }
+    img.preview-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-top: 10px;
+    }
+    .metric-value { font-size: 2rem; font-weight: 700; color: #38bdf8; margin: 8px 0; }
+    .reason-item {
+      padding: 8px 12px;
+      background: #1e293b;
+      border-left: 4px solid var(--primary);
+      margin-bottom: 8px;
+      border-radius: 0 4px 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Explainable AI Predictive Maintenance Dashboard</h1>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">AutoML Root-Cause Analysis for Industry 4.0 Telemetry</p>
+      </div>
+      <div>
+        <span class="badge badge-fallback">Static Fallback Mode</span>
+        <span id="health-badge" class="badge badge-low" style="margin-left: 8px;">API Connected</span>
+      </div>
+    </header>
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('dashboard')">1. Dashboard</button>
+      <button class="tab-btn" onclick="switchTab('predict')">2. Telemetry Predict & Explain</button>
+      <button class="tab-btn" onclick="switchTab('samples')">3. Explain Samples</button>
+      <button class="tab-btn" onclick="switchTab('global')">4. Global Insights</button>
+      <button class="tab-btn" onclick="switchTab('whatif')">5. What-If Simulation</button>
+      <button class="tab-btn" onclick="switchTab('textdemo')">6. Text XAI Demo</button>
+      <button class="tab-btn" onclick="switchTab('imagedemo')">7. Image XAI Demo</button>
+      <button class="tab-btn" onclick="switchTab('modelcard')">8. Model Card</button>
+    </div>
+
+    <!-- TAB 1: DASHBOARD -->
+    <div id="tab-dashboard" class="tab-content active">
+      <div class="grid-3">
+        <div class="card">
+          <h2>Served Model</h2>
+          <div class="metric-value" id="card-model-name">FLAML LightGBM</div>
+          <p style="color: var(--text-muted); font-size: 0.85rem;" id="card-model-type">LGBMClassifier</p>
+        </div>
+        <div class="card">
+          <h2>Test F1-Score</h2>
+          <div class="metric-value" id="card-model-f1">0.6281</div>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Phase 3 Winning AutoML Benchmark</p>
+        </div>
+        <div class="card">
+          <h2>Risk Framework</h2>
+          <div style="font-size: 0.9rem; margin-top: 8px;">
+            <p><span class="badge badge-low">Low Risk</span>: &lt; 30%</p>
+            <p style="margin: 4px 0;"><span class="badge badge-med">Medium Risk</span>: 30% - 60%</p>
+            <p><span class="badge badge-high">High Risk</span>: &gt; 60%</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Global Feature Influence (SHAP)</h2>
+        <img class="preview-img" src="/artifacts/xai/global/shap_summary.png" alt="SHAP Global Summary">
+      </div>
+    </div>
+
+    <!-- TAB 2: PREDICT -->
+    <div id="tab-predict" class="tab-content">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Input Machine Telemetry</h2>
+          <form id="predict-form" onsubmit="handlePredict(event)">
+            <div class="form-group">
+              <label>Machine Quality Variant (Type)</label>
+              <select id="p-type"><option value="L">L (50% Low Quality)</option><option value="M">M (30% Medium Quality)</option><option value="H">H (20% High Quality)</option></select>
+            </div>
+            <div class="form-group">
+              <label>Air Temperature [K] (Nominal ~298 - 304K)</label>
+              <input type="number" step="0.1" id="p-air" value="300.5" required>
+            </div>
+            <div class="form-group">
+              <label>Process Temperature [K] (Nominal ~308 - 314K)</label>
+              <input type="number" step="0.1" id="p-proc" value="310.2" required>
+            </div>
+            <div class="form-group">
+              <label>Rotational Speed [rpm] (Nominal ~1300 - 1800 rpm)</label>
+              <input type="number" step="1" id="p-speed" value="1420" required>
+            </div>
+            <div class="form-group">
+              <label>Torque [Nm] (High risk > 60 Nm)</label>
+              <input type="number" step="0.1" id="p-torque" value="62.4" required>
+            </div>
+            <div class="form-group">
+              <label>Tool Wear [min] (High risk > 200 min)</label>
+              <input type="number" step="1" id="p-wear" value="215" required>
+            </div>
+            <button type="submit" class="submit-btn">Run Prediction & Explainability Audit</button>
+          </form>
+        </div>
+        <div class="card">
+          <h2>Diagnostic Output</h2>
+          <div id="predict-results" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-size: 1.1rem; font-weight: 600;">Failure Probability:</span>
+              <span id="res-prob" style="font-size: 1.4rem; font-weight: 700;">--</span>
+            </div>
+            <div style="margin-bottom: 16px;"><span id="res-badge" class="badge">--</span></div>
+            <h3 style="font-size: 1rem; margin-bottom: 8px;">Top Attribution Factors:</h3>
+            <div id="res-reasons"></div>
+            <h3 style="font-size: 1rem; margin-top: 16px; margin-bottom: 8px;">Prescriptive Work Order:</h3>
+            <div id="res-rec" class="result-box" style="font-size: 0.9rem; color: #38bdf8;"></div>
+            <div style="margin-top: 16px;">
+              <h3 style="font-size: 1rem; margin-bottom: 8px;">Local SHAP Waterfall:</h3>
+              <img id="res-plot" class="preview-img" src="" alt="Local SHAP plot">
+            </div>
+          </div>
+          <div id="predict-placeholder" style="color: var(--text-muted); text-align: center; padding: 40px;">
+            Submit machine telemetry to calculate failure probability and Shapley attributions.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: SAMPLES -->
+    <div id="tab-samples" class="tab-content">
+      <div class="card">
+        <h2>Saved Diagnostic Cases (Test Benchmark)</h2>
+        <div id="samples-list" class="grid-3">Loading samples...</div>
+      </div>
+    </div>
+
+    <!-- TAB 4: GLOBAL -->
+    <div id="tab-global" class="tab-content">
+      <div class="card">
+        <h2>Global Model Interpretability</h2>
+        <div class="grid-2">
+          <div>
+            <h3>SHAP Global Beeswarm Summary</h3>
+            <img class="preview-img" src="/artifacts/xai/global/shap_summary.png" alt="SHAP Summary">
+          </div>
+          <div>
+            <h3>Global Mean |SHAP| Bar Importance</h3>
+            <img class="preview-img" src="/artifacts/xai/global/shap_bar.png" alt="SHAP Bar">
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top: 24px;">
+          <div>
+            <h3>Partial Dependence: Torque [Nm]</h3>
+            <img class="preview-img" src="/artifacts/xai/global/pdp_torque.png" alt="PDP Torque">
+          </div>
+          <div>
+            <h3>Partial Dependence: Tool Wear [min]</h3>
+            <img class="preview-img" src="/artifacts/xai/global/pdp_tool_wear.png" alt="PDP Tool Wear">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: WHAT-IF -->
+    <div id="tab-whatif" class="tab-content">
+      <div class="card">
+        <h2>Counterfactual Parameter Sensitivity Simulator</h2>
+        <div class="grid-2">
+          <div>
+            <h3>Baseline Operating State (High Risk)</h3>
+            <div class="form-group"><label>Torque [Nm]</label><input id="w-orig-torque" type="number" value="68.0"></div>
+            <div class="form-group"><label>Tool Wear [min]</label><input id="w-orig-wear" type="number" value="220"></div>
+            <div class="form-group"><label>Rotational Speed [rpm]</label><input id="w-orig-speed" type="number" value="1350"></div>
+          </div>
+          <div>
+            <h3>Target Counterfactual State (Optimized)</h3>
+            <div class="form-group"><label>Modified Torque [Nm]</label><input id="w-mod-torque" type="number" value="42.0"></div>
+            <div class="form-group"><label>Modified Tool Wear [min]</label><input id="w-mod-wear" type="number" value="15"></div>
+            <div class="form-group"><label>Modified Rotational Speed [rpm]</label><input id="w-mod-speed" type="number" value="1550"></div>
+          </div>
+        </div>
+        <button class="submit-btn" onclick="handleWhatIf()" style="margin-top: 16px;">Simulate Parameter Adjustment</button>
+        <div id="whatif-result" class="result-box" style="display: none; margin-top: 20px;"></div>
+      </div>
+    </div>
+
+    <!-- TAB 6: TEXT DEMO -->
+    <div id="tab-textdemo" class="tab-content">
+      <div class="card">
+        <h2>Multi-Modal NLP: Maintenance Shift Notes Token Attribution</h2>
+        <div class="form-group">
+          <label>Technician Shift Handover Log</label>
+          <textarea id="text-input" rows="3">Machine making loud screeching noise and vibrating heavily near primary spindle drive.</textarea>
+        </div>
+        <button class="submit-btn" onclick="handleTextExplain()">Analyze Urgency & Explain Keywords</button>
+        <div id="text-result" class="result-box" style="display: none; margin-top: 20px;"></div>
+      </div>
+    </div>
+
+    <!-- TAB 7: IMAGE DEMO -->
+    <div id="tab-imagedemo" class="tab-content">
+      <div class="card">
+        <h2>Multi-Modal Spatial Saliency Inspection (Grad-CAM Demonstration)</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">
+          Spatial saliency overlays highlighting localized physical component defect initiation.
+        </p>
+        <div id="image-demo-container" class="grid-3">Loading image demo...</div>
+      </div>
+    </div>
+
+    <!-- TAB 8: MODEL CARD -->
+    <div id="tab-modelcard" class="tab-content">
+      <div class="card">
+        <h2>Standardized Model Card</h2>
+        <pre id="model-card-content">Loading model card...</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+      if (tabId === 'samples') loadSamples();
+      if (tabId === 'imagedemo') loadImageDemo();
+      if (tabId === 'modelcard') loadModelCard();
+    }
+
+    async function initDashboard() {
+      try {
+        const res = await fetch('/model/info');
+        if (res.ok) {
+          const d = await res.json();
+          document.getElementById('card-model-name').textContent = d.model_name || 'FLAML AutoML';
+          document.getElementById('card-model-type').textContent = d.model_type || 'LGBMClassifier';
+          if (d.metrics && d.metrics.f1) {
+            document.getElementById('card-model-f1').textContent = d.metrics.f1;
+          }
+        }
+      } catch (e) { console.error(e); }
+    }
+
+    async function handlePredict(e) {
+      e.preventDefault();
+      const payload = {
+        type: document.getElementById('p-type').value,
+        air_temp: parseFloat(document.getElementById('p-air').value),
+        process_temp: parseFloat(document.getElementById('p-proc').value),
+        rotational_speed: parseFloat(document.getElementById('p-speed').value),
+        torque: parseFloat(document.getElementById('p-torque').value),
+        tool_wear: parseFloat(document.getElementById('p-wear').value)
+      };
+
+      try {
+        const res = await fetch('/explain', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Prediction failed');
+        const data = await res.json();
+
+        document.getElementById('predict-placeholder').style.display = 'none';
+        document.getElementById('predict-results').style.display = 'block';
+
+        const p = data.prediction.failure_probability;
+        document.getElementById('res-prob').textContent = (p * 100).toFixed(1) + '%';
+        const badge = document.getElementById('res-badge');
+        badge.textContent = data.prediction.risk_level + ' Risk';
+        badge.className = 'badge badge-' + data.prediction.risk_level.toLowerCase();
+
+        const reasonsDiv = document.getElementById('res-reasons');
+        reasonsDiv.innerHTML = data.top_reasons.map(r => `
+          <div class="reason-item">
+            <strong>${r.feature.toUpperCase()}</strong>: ${r.impact} (SHAP impact: ${r.attribution || 0})
+          </div>
+        `).join('');
+
+        document.getElementById('res-rec').textContent = data.recommendation;
+        document.getElementById('res-plot').src = data.local_shap_plot + '?t=' + Date.now();
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    }
+
+    async function handleWhatIf() {
+      const payload = {
+        original_input: {
+          type: "L", air_temp: 302.0, process_temp: 311.0,
+          rotational_speed: parseFloat(document.getElementById('w-orig-speed').value),
+          torque: parseFloat(document.getElementById('w-orig-torque').value),
+          tool_wear: parseFloat(document.getElementById('w-orig-wear').value)
+        },
+        modified_input: {
+          type: "L", air_temp: 300.0, process_temp: 310.0,
+          rotational_speed: parseFloat(document.getElementById('w-mod-speed').value),
+          torque: parseFloat(document.getElementById('w-mod-torque').value),
+          tool_wear: parseFloat(document.getElementById('w-mod-wear').value)
+        }
+      };
+
+      try {
+        const res = await fetch('/what-if', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        const box = document.getElementById('whatif-result');
+        box.style.display = 'block';
+        box.innerHTML = `
+          <h4 style="color: #38bdf8; margin-bottom: 8px;">Simulation Result:</h4>
+          <p style="margin-bottom: 6px;"><strong>Original Risk:</strong> ${(data.original_probability * 100).toFixed(1)}% (${data.original_risk_level})</p>
+          <p style="margin-bottom: 6px;"><strong>Modified Risk:</strong> ${(data.modified_probability * 100).toFixed(1)}% (${data.modified_risk_level})</p>
+          <p style="margin-bottom: 12px;"><strong>Net Delta:</strong> ${(data.probability_change * 100).toFixed(1)}%</p>
+          <p style="background: #1e293b; padding: 10px; border-radius: 4px;">${data.interpretation}</p>
+        `;
+      } catch (err) { alert(err.message); }
+    }
+
+    async function handleTextExplain() {
+      const text = document.getElementById('text-input').value;
+      try {
+        const res = await fetch('/text-explain', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text })
+        });
+        const data = await res.json();
+        const box = document.getElementById('text-result');
+        box.style.display = 'block';
+        box.innerHTML = `
+          <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px;">
+            <span class="badge ${data.predicted_label === 'urgent' ? 'badge-high' : 'badge-low'}">
+              ${data.predicted_label.toUpperCase()} CLASSIFICATION
+            </span>
+            <span>Probability of Urgency: <strong>${(data.probability * 100).toFixed(1)}%</strong></span>
+          </div>
+          <h4 style="margin-bottom: 8px;">Attributed Diagnostic Tokens:</h4>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            ${data.important_words.map(w => `
+              <span style="background: #1e293b; border: 1px solid var(--border); padding: 4px 8px; border-radius: 4px;">
+                <strong>${w.word}</strong> (${w.impact}: ${w.weight})
+              </span>
+            `).join('')}
+          </div>
+        `;
+      } catch (err) { alert(err.message); }
+    }
+
+    async function loadSamples() {
+      try {
+        const res = await fetch('/samples');
+        const samples = await res.json();
+        const div = document.getElementById('samples-list');
+        div.innerHTML = samples.map(s => `
+          <div class="card" style="margin-bottom: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <strong>${s.sample_id.toUpperCase()}</strong>
+              <span class="badge badge-${s.risk_level.toLowerCase()}">${s.risk_level}</span>
+            </div>
+            <p style="font-size: 0.9rem; margin-bottom: 8px;">P(Failure): <strong>${(s.predicted_probability * 100).toFixed(1)}%</strong> | Ground Truth: <strong>${s.true_label}</strong></p>
+            <img class="preview-img" src="${s.local_shap_plot_path}" alt="Sample SHAP">
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 8px;">${s.recommendation}</p>
+          </div>
+        `).join('');
+      } catch (err) { console.error(err); }
+    }
+
+    async function loadImageDemo() {
+      try {
+        const res = await fetch('/image-demo');
+        const data = await res.json();
+        const div = document.getElementById('image-demo-container');
+        div.innerHTML = data.items.map(it => `
+          <div class="card" style="margin-bottom: 0;">
+            <h3>${it.title}</h3>
+            <span class="badge badge-med" style="margin: 6px 0 10px 0;">${it.predicted_class}</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div>
+                <label>Original Component</label>
+                <img class="preview-img" src="${it.original}">
+              </div>
+              <div>
+                <label>Saliency Overlay</label>
+                <img class="preview-img" src="${it.overlay}">
+              </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px;">${it.explanation}</p>
+          </div>
+        `).join('');
+      } catch (err) { console.error(err); }
+    }
+
+    async function loadModelCard() {
+      try {
+        const res = await fetch('/model-card');
+        const card = await res.json();
+        document.getElementById('model-card-content').textContent = JSON.stringify(card, null, 2);
+      } catch (err) { console.error(err); }
+    }
+
+    window.onload = initDashboard;
+  </script>
+</body>
+</html>

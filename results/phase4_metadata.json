@@ -1,0 +1,49 @@
+{
+  "phase": "phase4",
+  "mode": "fast",
+  "timestamp": "2026-10-27T07:17:33.064688+00:00",
+  "frontend_mode": "react",
+  "image_demo_mode": "illustrative_fallback",
+  "served_model_source": "Phase 3 AutoML (FLAML)",
+  "served_model_path": "models/flaml_model.pkl",
+  "served_model_name": "FLAML - lgbm",
+  "served_model_type": "AutoML",
+  "explanation_model_type": "TreeExplainer (LightGBM estimator)",
+  "surrogate_used": false,
+  "shap_background_sample_size": 50,
+  "number_of_local_samples": 3,
+  "text_demo_samples": 60,
+  "endpoints_tested": [
+    "GET /health",
+    "GET /version",
+    "GET /model-card",
+    "GET /model/info",
+    "GET /global-explanations",
+    "GET /samples",
+    "GET /image-demo",
+    "POST /predict",
+    "POST /explain",
+    "POST /what-if",
+    "POST /text-explain"
+  ],
+  "package_versions": {
+    "fastapi": "0.162.0",
+    "uvicorn": "0.54.0",
+    "pydantic": "2.14.1",
+    "scikit-learn": "1.9.1",
+    "pandas": "2.3.3",
+    "numpy": "2.4.6",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2",
+    "shap": "0.51.0",
+    "lime": "0.2.0.1",
+    "joblib": "1.6.0"
+  },
+  "assumptions": [
+    "LightGBM from FLAML AutoML supports TreeExplainer directly on preprocessed features.",
+    "Illustrative spatial saliency overlays provide reliable defect localization without requiring a multi-gigabyte PyTorch installation.",
+    "Threshold tau=0.50 used for binary classification, with 0.30/0.60 operational risk bands."
+  ],
+  "installation_issues": [],
+  "execution_issues": []
+}

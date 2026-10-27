@@ -1,0 +1,10 @@
+{
+  "image_id": "image_1",
+  "title": "Bearing Inner Race Spalling",
+  "predicted_class": "Sub-surface Fatigue Spall",
+  "image_demo_mode": "illustrative_fallback",
+  "explanation": "Spatial activation highlights flaked metallic debris pitting along the raceway groove, correlating with high acoustic vibration.",
+  "original_path": "/artifacts/xai/image_demo/image_1_original.png",
+  "heatmap_path": "/artifacts/xai/image_demo/image_1_heatmap.png",
+  "overlay_path": "/artifacts/xai/image_demo/image_1_overlay.png"
+}

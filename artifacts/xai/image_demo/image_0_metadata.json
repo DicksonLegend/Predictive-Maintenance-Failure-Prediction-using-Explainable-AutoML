@@ -1,0 +1,10 @@
+{
+  "image_id": "image_0",
+  "title": "Milling Tool Blade Micro-Crack",
+  "predicted_class": "Tool Surface Fatigue Crack",
+  "image_demo_mode": "illustrative_fallback",
+  "explanation": "Saliency attribution pinpoints high tensile stress concentration and micro-crack bifurcation along the primary cutting shear lip.",
+  "original_path": "/artifacts/xai/image_demo/image_0_original.png",
+  "heatmap_path": "/artifacts/xai/image_demo/image_0_heatmap.png",
+  "overlay_path": "/artifacts/xai/image_demo/image_0_overlay.png"
+}

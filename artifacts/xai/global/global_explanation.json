@@ -1,0 +1,25 @@
+{
+  "top_global_features": [
+    "torque",
+    "tool_wear",
+    "air_temp",
+    "rotational_speed"
+  ],
+  "feature_importances": {
+    "torque": 0.3845618712356241,
+    "tool_wear": 0.35883435727694624,
+    "air_temp": 0.3449398451113601,
+    "rotational_speed": 0.3228333394030093,
+    "process_temp": 0.13916520998992646,
+    "type": 0.019415460968268974
+  },
+  "feature_interpretations": {
+    "torque": "Primary driver of mechanical overload failure; higher torque disproportionately escalates failure probability.",
+    "tool_wear": "Cumulative cutting edge degradation; wear above ~200 minutes marks an exponential transition into high failure risk.",
+    "rotational_speed": "Rotational velocity dynamics; lower RPM under high torque triggers power strain and thermal dissipation failure.",
+    "process_temp": "Indicates thermodynamic thermal equilibrium; sustained process temperature differential signals cooling system breakdown."
+  },
+  "explanation_model_used": "shap_direct",
+  "surrogate_used": false,
+  "background_samples": 50
+}

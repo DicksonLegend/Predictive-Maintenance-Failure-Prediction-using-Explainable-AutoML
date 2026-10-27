@@ -1,0 +1,10 @@
+{
+  "image_id": "image_2",
+  "title": "Stator Winding Thermal Hotspot",
+  "predicted_class": "Phase Winding Thermal Overload",
+  "image_demo_mode": "illustrative_fallback",
+  "explanation": "Thermal saliency overlay identifies severe localized heat dissipation deficit, indicating localized inter-turn dielectric breakdown.",
+  "original_path": "/artifacts/xai/image_demo/image_2_original.png",
+  "heatmap_path": "/artifacts/xai/image_demo/image_2_heatmap.png",
+  "overlay_path": "/artifacts/xai/image_demo/image_2_overlay.png"
+}

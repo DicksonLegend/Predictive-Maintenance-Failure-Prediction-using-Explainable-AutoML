@@ -1,0 +1,71 @@
+{
+  "model_name": "FLAML AutoML LightGBM Classifier (Predictive Maintenance)",
+  "dataset": "UCI AI4I 2020 Predictive Maintenance Dataset (10,000 instances)",
+  "target_variable": "machine_failure (Binary: 0 = No Failure, 1 = Machine Failure)",
+  "intended_use": "Decision-support telemetry monitoring for Industry 4.0 milling machines to identify impending mechanical, thermal, and electrical failures before catastrophic breakdown.",
+  "out_of_scope_use": "Autonomous equipment shutdown without human technician verification, or deployment on non-rotational industrial equipment differing from milling machine dynamics.",
+  "training_data_summary": {
+    "total_training_samples": 8000,
+    "total_test_samples": 2000,
+    "class_distribution_training": {
+      "no_failure_count": 7729,
+      "failure_count": 271,
+      "failure_percentage": 3.39
+    },
+    "features": [
+      "type (categorical: L, M, H)",
+      "air_temp (continuous [K])",
+      "process_temp (continuous [K])",
+      "rotational_speed (discrete [rpm])",
+      "torque (continuous [Nm])",
+      "tool_wear (discrete [min])"
+    ]
+  },
+  "metrics": {
+    "primary_metric": "F1-score",
+    "test_f1": 0.6281,
+    "test_roc_auc": 0.9171,
+    "test_pr_auc": 0.6866,
+    "test_precision": 0.717,
+    "test_recall": 0.5588,
+    "test_accuracy": 0.9775,
+    "benchmark_comparison": {
+      "phase2_manual_rf_f1": 0.7132,
+      "phase3_autogluon_f1": 0.3721
+    }
+  },
+  "explanation_methods": [
+    "SHAP TreeExplainer (Global summary beeswarm and local Shapley attribution waterfall)",
+    "LIME Tabular Explainer (Sparse local linear decision rules)",
+    "Partial Dependence Plots (1D response curves for torque, wear, speed, temp)",
+    "Counterfactual What-If Simulation (Sensitivity analysis for operating adjustments)",
+    "Multi-Modal NLP LIME Token Attribution (Technician shift notes urgency classifier)",
+    "Spatial Saliency Defect Localization (Demonstrative tool crack, bearing spalling, and stator thermal inspection)"
+  ],
+  "fairness_findings": {
+    "group_variable": "Product Quality Variant (type: L, M, H)",
+    "variant_L_f1": 0.6176,
+    "variant_M_f1": 0.6667,
+    "variant_H_f1": 0.5455,
+    "disparate_impact_assessment": "False positive rates remain below 1.5% across all variants. Lower F1 on variant H is driven by low sample support (20% of dataset with only 21 failure cases in test set)."
+  },
+  "leakage_findings": {
+    "controlled_leakage_feature": "post_failure_inspection_flag",
+    "f1_jump": "+19.6% (0.6281 to 0.8244)",
+    "leakage_attribution_share": "62.4% feature importance",
+    "conclusion": "AutoML naively capitalizes on post-failure documentation. Model governance and XAI auditing are strictly required to filter downstream status flags before deployment."
+  },
+  "known_limitations": [
+    "Moderate recall (0.5588) under default 0.50 threshold due to severe 3.39% class imbalance; critical operations should calibrate threshold to 0.30.",
+    "Does not ingest real-time continuous vibrational time-series (uses scalar rotational speed and torque aggregations).",
+    "Requires periodic recalibration when tool metallurgy or cutting lubricants change."
+  ],
+  "deployment_notes": {
+    "framework": "FastAPI REST Service + React Single Page Application (Vite)",
+    "latency": "< 25ms per inference request, < 250ms per dynamic SHAP explanation",
+    "stateless_architecture": "Production containerizable via Uvicorn ASGI",
+    "monitoring": "Telemetry drift tracking recommended on sensor distribution means"
+  },
+  "maintenance_recommendations": "Prescriptive rule engine automatically maps top Shapley attribution drivers (Torque -> mechanical load reduction; Tool wear -> cutting insert replacement; Temperature -> heat exchanger inspection; Rotational speed -> spindle bearing alignment).",
+  "ethical_considerations": "Designed strictly as decision-support for maintenance crews. Automated alerting must provide explainability rationale to avoid operator fatigue or biased maintenance prioritization."
+}
