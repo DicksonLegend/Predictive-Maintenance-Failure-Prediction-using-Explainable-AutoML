@@ -9,3 +9,8 @@ flaml
 autogluon.tabular
 optuna
 streamlit
+fastapi
+uvicorn
+pydantic
+joblib
+prometheus-fastapi-instrumentator

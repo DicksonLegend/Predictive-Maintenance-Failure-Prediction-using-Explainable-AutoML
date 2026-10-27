@@ -1,5 +1,8 @@
-"""API Configuration and Constants."""
+import os
 from pathlib import Path
+
+# Model Selection Preference: "auto" | "automl" | "fallback"
+SERVED_MODEL_PREFERENCE = os.environ.get("SERVED_MODEL_PREFERENCE", "auto").lower()
 
 # Paths
 API_DIR = Path(__file__).resolve().parent

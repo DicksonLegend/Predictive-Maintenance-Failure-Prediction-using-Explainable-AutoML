@@ -1,0 +1,7 @@
+# Example Terraform Variable Configuration for Monitoring Stack
+# Copy to terraform.tfvars and customize credentials before running terraform plan
+
+grafana_admin_password = "production_secure_admin_password_123"
+prometheus_port        = 9090
+grafana_port           = 3000
+api_host               = "host.docker.internal"

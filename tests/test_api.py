@@ -168,3 +168,24 @@ def test_10_image_demo_endpoint():
     assert "overlay" in item0
     assert "predicted_class" in item0
     assert "explanation" in item0
+
+
+def test_11_metrics_endpoint():
+    """11. GET /metrics returns 200 and Prometheus metrics including xai_predictions_total."""
+    # Fire a prediction to increment business metric
+    pred_res = client.post("/predict", json={
+        "type": "L",
+        "air_temp": 300.0,
+        "process_temp": 310.0,
+        "rotational_speed": 1500.0,
+        "torque": 40.0,
+        "tool_wear": 50.0
+    })
+    assert pred_res.status_code == 200
+
+    response = client.get("/metrics")
+    assert response.status_code == 200
+    content = response.text
+    assert "xai_predictions_total" in content
+    assert "http_request" in content or "http_requests" in content
+

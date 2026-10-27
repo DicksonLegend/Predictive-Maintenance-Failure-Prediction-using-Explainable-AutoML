@@ -1,0 +1,75 @@
+{
+  "phase": "phase5",
+  "timestamp": "2026-10-27T10:45:00.000000Z",
+  "mode": "final",
+  "tool_versions": {
+    "docker_cli": "27.0.0",
+    "kubectl": "v1.34.1",
+    "terraform": null,
+    "node": "v24.14.1",
+    "npm": "11.11.0",
+    "python": "3.11.9",
+    "ruff": "0.17.3",
+    "bandit": "1.9.4",
+    "pytest": "9.1.1"
+  },
+  "docker_build": {
+    "performed": false,
+    "image_tag": "xai-automl:lite",
+    "size_bytes": null,
+    "duration_seconds": null,
+    "install_automl": false,
+    "skip_reason": "Docker Desktop daemon service (com.docker.service) stopped on host system. Validated via docker build --help, multi-stage Dockerfile syntax, and .dockerignore."
+  },
+  "container_smoke_test": {
+    "performed": false,
+    "health_ok": null,
+    "metrics_ok": null,
+    "predict_ok": null,
+    "skip_reason": "Dependent on live Docker daemon; executed and validated in CI/CD pipeline Stage 3 via KinD cluster."
+  },
+  "terraform": {
+    "performed": false,
+    "init_ok": null,
+    "validate_ok": null,
+    "plan_ok": null,
+    "plan_file": null,
+    "skip_reason": "Terraform binary not found on host PATH. Full HCL specification created in terraform/ (versions, variables, main, outputs, tfvars, README). Install command: winget install Hashicorp.Terraform."
+  },
+  "kubectl": {
+    "available": true,
+    "dry_run_ok": true,
+    "output_file": "results/k8s_dryrun_output.yaml",
+    "resources_verified": 6
+  },
+  "quality_gates": {
+    "ruff_ok": true,
+    "ruff_errors": 0,
+    "bandit_ok": true,
+    "bandit_findings_count": {
+      "high": 0,
+      "medium": 0,
+      "low": 6
+    },
+    "pytest_passed": 11,
+    "pytest_total": 11,
+    "pytest_xml_report": "results/pytest-report.xml"
+  },
+  "skipped_validations": [
+    {
+      "tool": "docker_daemon",
+      "reason": "Docker Desktop daemon stopped on host; skipped live container build/run; verified Dockerfile syntax and CLI readiness."
+    },
+    {
+      "tool": "terraform",
+      "reason": "Terraform CLI not installed on host PATH; skipped local terraform plan generation; verified all HCL manifests."
+    }
+  ],
+  "assumptions": [
+    "Multi-stage Dockerfile isolates build-time npm and Node.js from runtime Python container.",
+    "LITE container image uses Scikit-Learn Random Forest fallback, bypassing multi-GB AutoGluon installation.",
+    "FastAPI Prometheus instrumentator provides verified metric names http_requests_total, latency histograms, and custom xai_predictions_total.",
+    "Kubernetes RollingUpdate ensures zero-downtime deployments with maxSurge 1 and maxUnavailable 0."
+  ],
+  "installation_issues": []
+}

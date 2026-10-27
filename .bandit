@@ -1,0 +1,12 @@
+# Bandit configuration for Phase 5 DevOps Security Scan
+skips: []
+exclude_dirs:
+  - ".venv"
+  - "tests"
+  - "artifacts"
+  - "models"
+  - "data"
+  - "results"
+  - "reports"
+  - "node_modules"
+  - "app/frontend"

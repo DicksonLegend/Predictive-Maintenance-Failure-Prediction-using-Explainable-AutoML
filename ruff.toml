@@ -1,0 +1,34 @@
+# Ruff configuration for Phase 5 DevOps Quality Gate
+line-length = 120
+target-version = "py311"
+
+exclude = [
+    ".git",
+    ".venv",
+    "artifacts",
+    "data",
+    "models",
+    "results",
+    "plots",
+    "reports",
+    "node_modules",
+    "app/frontend/node_modules",
+    "app/frontend/dist",
+]
+
+[lint]
+select = ["E", "F", "W"]
+ignore = [
+    "E501",  # Line length handled pragmatically; long diagnostic logs/docstrings allowed
+    "F401",  # Unused imports in __init__.py and modules kept for API surface
+    "F841",  # Local variables assigned for debugging or intermediate calculations
+    "F541",  # f-string without placeholders in logging calls
+    "W291",  # Trailing whitespace
+    "W293",  # Blank line contains whitespace
+]
+
+[lint.per-file-ignores]
+"scripts/*" = ["E402"]
+"tests/*" = ["E402"]
+"app/api/*" = ["E402"]
+"src/*" = ["E402"]

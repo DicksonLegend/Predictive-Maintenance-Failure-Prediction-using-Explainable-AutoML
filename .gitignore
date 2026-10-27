@@ -43,3 +43,17 @@ models/*.onnx
 # Autogluon models directory
 AutogluonModels/
 models/autogluon_predictor/
+
+# Phase 5 DevOps: Terraform state & plans
+.terraform/
+*.tfstate
+*.tfstate.*
+tfplan
+
+# Phase 5 DevOps: Monitoring data & local dry-run results
+monitoring/grafana/data/
+results/k8s_dryrun_output.yaml
+results/terraform_plan.txt
+
+# Linters and security caches
+.ruff_cache/

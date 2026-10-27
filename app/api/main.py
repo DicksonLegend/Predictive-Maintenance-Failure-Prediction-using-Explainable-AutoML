@@ -33,6 +33,8 @@ from app.api.xai_service import explain_sensor_reading, get_global_explanations,
 from app.api.text_demo_service import explain_maintenance_text
 from app.api.image_demo_service import get_image_demo_items
 from src.xai.what_if import analyze_what_if
+from prometheus_fastapi_instrumentator import Instrumentator
+from app.api.metrics import xai_predictions_total
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
@@ -52,6 +54,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Prometheus Metrics Instrumentation (Phase 5 DevOps)
+Instrumentator().instrument(app).expose(app, endpoint="/metrics", include_in_schema=True)
 
 # Mount artifacts folder
 if ARTIFACTS_DIR.exists():
@@ -176,7 +181,10 @@ def get_image_demo():
 def predict_machine_failure(sensor_input: SensorInput):
     """Predicts machine failure probability and risk level from sensor telemetry."""
     try:
-        return model_service.predict(sensor_input)
+        res = model_service.predict(sensor_input)
+        risk = getattr(res.prediction, "risk_level", "low").lower()
+        xai_predictions_total.labels(risk_level=risk).inc()
+        return res
     except Exception as e:
         logger.error("Error during failure prediction: %s", e)
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")

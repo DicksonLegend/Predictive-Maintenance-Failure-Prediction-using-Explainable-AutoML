@@ -1,0 +1,26 @@
+# Prometheus configuration for Phase 5 DevOps monitoring stack
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+
+rule_files:
+  - "/etc/prometheus/alerts.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["alertmanager:9093"]
+
+scrape_configs:
+  # Scrape the Predictive Maintenance FastAPI application
+  - job_name: "xai-api"
+    metrics_path: "/metrics"
+    static_configs:
+      # host.docker.internal connects to the host machine from inside Docker containers (Windows / macOS)
+      # On Linux environments, switch target to "172.17.0.1:8000" or the Docker Compose service name "xai-api:8000"
+      - targets: ["host.docker.internal:8000"]
+
+  # Scrape Prometheus internal health metrics
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]

@@ -1,0 +1,201 @@
+name: CI/CD Pipeline — Code Quality, Container Security & Deployment Verification
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  pull-requests: write
+
+jobs:
+  # ============================================================================
+  # Stage 1: Quality Gate (Static Analysis, Linting, Security Scanning, Unit Tests)
+  # ============================================================================
+  quality:
+    name: Code Quality & Security Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Development & Quality Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Run Ruff Linter
+        run: |
+          ruff check app src scripts tests
+
+      - name: Run Bandit SAST Security Scan
+        run: |
+          # Fails build only on MEDIUM or HIGH severity findings; LOW informational notices are permitted
+          bandit -r app src -x tests,.venv -ll
+
+      - name: Run Gitleaks Secret Detection
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: false
+
+      - name: Install Runtime Dependencies for Testing
+        run: |
+          pip install -r requirements-lite.txt
+
+      - name: Run Pytest Test Suite
+        run: |
+          mkdir -p results
+          pytest tests/ -q --junitxml=results/pytest-report.xml
+
+      - name: Upload Test Results Artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pytest-results
+          path: results/pytest-report.xml
+
+  # ============================================================================
+  # Stage 2: Containerization & Trivy Vulnerability Scan
+  # ============================================================================
+  build-scan-push:
+    name: Build, Scan & Push Container Images
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry (GHCR)
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker Metadata (Lite Image)
+        id: meta-lite
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha,prefix=lite-
+            type=ref,event=branch,prefix=lite-
+            type=raw,value=lite,enable={{is_default_branch}}
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and Push Docker Lite Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          build-args: |
+            INSTALL_AUTOML=false
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta-lite.outputs.tags }}
+          labels: ${{ steps.meta-lite.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          load: true
+
+      - name: Scan Lite Image for Vulnerabilities with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/${{ github.repository }}:lite
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          # Only CRITICAL vulnerabilities break the pipeline. HIGH severity findings produce warnings
+          # without blocking rapid deployment cycles, allowing scheduled patch maintenance.
+          severity: "CRITICAL"
+
+      # Full AutoML Container Image Build (Main Branch Release Artifact Only)
+      - name: Build and Push Full AutoML Container Image
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        continue-on-error: true
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          build-args: |
+            INSTALL_AUTOML=true
+          push: true
+          tags: ghcr.io/${{ github.repository }}:full-${{ github.sha }}
+          cache-from: type=gha
+          # Note: The full AutoML image includes multi-GB AutoGluon dependencies and may take 15-20 minutes.
+
+  # ============================================================================
+  # Stage 3: Kubernetes Deployment Verification Gate (KinD Ephemeral Cluster)
+  # ============================================================================
+  deploy-verify:
+    name: Kubernetes KinD Deployment Verification
+    needs: build-scan-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Kubernetes in Docker (KinD) Cluster
+        uses: helm/kind-action@v1
+        with:
+          cluster_name: xai-verify-cluster
+
+      - name: Build Lite Image Locally for KinD
+        run: |
+          docker build --build-arg INSTALL_AUTOML=false -t xai-automl:lite -f Dockerfile .
+
+      - name: Load Image into KinD Cluster
+        run: |
+          kind load docker-image xai-automl:lite --name xai-verify-cluster
+
+      - name: Deploy Kubernetes Manifests via Kustomize
+        run: |
+          kubectl apply -k k8s/
+
+      - name: Wait for Pod Rollout Completion
+        run: |
+          kubectl -n xai-predictive-maintenance rollout status deployment/xai-api --timeout=180s
+
+      - name: Inspect Cluster Resources
+        run: |
+          echo "=== Namespaces ==="
+          kubectl get namespaces
+          echo "=== Deployments & Pods ==="
+          kubectl -n xai-predictive-maintenance get pods,svc,hpa -o wide
+
+      - name: Verify Live Pod Health and Prometheus Endpoints
+        run: |
+          # Start background port-forward to test service response
+          kubectl -n xai-predictive-maintenance port-forward svc/xai-api 8000:80 &
+          sleep 5
+          echo "Testing /health endpoint..."
+          curl -f http://127.0.0.1:8000/health || exit 1
+          echo "Testing /metrics endpoint..."
+          curl -f http://127.0.0.1:8000/metrics | grep "xai_predictions_total" || exit 1
+          echo "Verification successful!"
+
+      - name: Teardown Test Resources
+        if: always()
+        run: |
+          kubectl delete -k k8s/ --ignore-not-found

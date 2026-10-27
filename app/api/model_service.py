@@ -15,6 +15,7 @@ from app.api.config import (
     DATA_PROCESSED_DIR,
     PROBABILITY_THRESHOLD,
     get_risk_level,
+    SERVED_MODEL_PREFERENCE,
 )
 from app.api.schemas import SensorInput, PredictionResponse, PredictionDetails, ModelInfo
 
@@ -42,10 +43,12 @@ class ModelService:
         return cls._instance
 
     def _load_best_model(self) -> None:
-        """Selects and loads the served model according to Phase 4 priority rules."""
+        """Selects and loads the served model according to Phase 4 and Phase 5 priority rules."""
+        allow_phase3 = SERVED_MODEL_PREFERENCE in ("auto", "automl")
+
         # Priority 1: Phase 3 Best Model (FLAML / AutoGluon)
         phase3_json_path = RESULTS_DIR / "phase3_best_model.json"
-        if phase3_json_path.exists():
+        if allow_phase3 and phase3_json_path.exists():
             try:
                 with open(phase3_json_path, "r", encoding="utf-8") as f:
                     p3_meta = json.load(f)

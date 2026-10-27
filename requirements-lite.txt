@@ -1,0 +1,19 @@
+# Lite production runtime requirements (Phase 5 DevOps)
+# Excludes heavyweight multi-GB AutoML frameworks (autogluon.tabular, flaml)
+# Generates a lightweight container image (<1.5 GB) utilizing Scikit-Learn Random Forest fallback
+# Programmatically generated from requirements.txt to prevent dependency drift.
+
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+shap
+lime
+optuna
+streamlit
+fastapi
+uvicorn
+pydantic
+joblib
+prometheus-fastapi-instrumentator
