@@ -330,3 +330,33 @@ Capture the following 16 screenshots and place them in `reports/screenshots/` fo
 | 15 | `phase5_grafana_dashboard.png` | Full Grafana dashboard showing live metrics under load (run `generate_load.py` once prior to capture) | Sec 9: Monitoring |
 | 16 | `phase5_validation_pass.png` | Terminal showing `validate_phase5.py` with OVERALL STATUS: PASS | Sec 13: Rubric Matrix |
 
+---
+
+## Appendix: Post-Submission Disk Reclaim & VHDX Compaction
+
+> [!WARNING]
+> **DO NOT EXECUTE PRIOR TO SUBMISSION / GRADING:**
+> Running these procedures will shut down the active deployment stack and WSL2. Perform these steps only after all evaluation screenshots have been captured and the academic project has been formally submitted.
+
+### When to Run
+- After completing all manual demonstrations, taking all required screenshots, and submitting reports.
+- When you want to reclaim 10 to 18+ GB of disk space on Windows drive C:.
+
+### Step-by-Step Execution
+
+#### Option 1: Full Teardown & Maximum Space Reclaim (Recommended)
+This script tears down all Kubernetes resources and Terraform containers, purges all BuildKit caches, and runs the disk compactor:
+```powershell
+# Standard Teardown & Compaction (preserves container images for fast re-launch):
+.\scripts\full_teardown_and_reclaim.ps1
+
+# Maximum Teardown & Compaction (additionally purges unused container images):
+.\scripts\full_teardown_and_reclaim.ps1 -IncludeImages
+```
+
+#### Option 2: Standalone Docker VHDX Compaction
+If you have already run `.\scripts\teardown_all.ps1` or stopped Docker Desktop, you can shrink the physical WSL2 virtual hard disk file (`docker_data.vhdx`) directly:
+```powershell
+.\scripts\compact_docker_disk.ps1
+```
+*How it works: The script shuts down WSL2 (`wsl --shutdown`), locates the Docker VHDX under `%LOCALAPPDATA%\Docker`, and invokes Windows `diskpart` in read-only mode to compact the sparse file back to its actual utilized footprint.*
