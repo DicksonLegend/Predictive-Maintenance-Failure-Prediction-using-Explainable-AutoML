@@ -37,7 +37,7 @@ resource "docker_container" "prometheus" {
     external = var.prometheus_port
   }
 
-  extra_hosts {
+  host {
     host = var.api_host
     ip   = "host-gateway"
   }

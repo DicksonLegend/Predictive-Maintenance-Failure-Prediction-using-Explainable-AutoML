@@ -1,0 +1,1 @@
+deployment.apps/xai-api restarted

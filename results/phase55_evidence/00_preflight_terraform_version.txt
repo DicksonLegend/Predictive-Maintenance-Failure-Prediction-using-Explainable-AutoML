@@ -1,0 +1,3 @@
+Terraform v1.16.6
+on windows_amd64
+Location: C:\Users\dicks\AppData\Local\Microsoft\WinGet\Links\terraform.exe
