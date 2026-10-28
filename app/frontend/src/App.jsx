@@ -151,7 +151,7 @@ export default function App() {
             <div className="card">
               <h2>Operational Risk Framework</h2>
               <p style={{ color: 'var(--text-secondary)', marginBottom: '16px', fontSize: '0.9rem' }}>
-                Failure probabilities $P(\text{failure} \mid \mathbf{x})$ are mapped to standard operational risk bands:
+                Failure probabilities P(failure | x) are mapped to standard operational risk bands:
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ padding: '12px', background: '#121929', borderRadius: '6px', borderLeft: '4px solid #10b981' }}>
