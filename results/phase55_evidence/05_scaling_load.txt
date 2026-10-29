@@ -1,0 +1,15 @@
+=================================================================
+XAI PREDICTIVE MAINTENANCE — SYNTHETIC LOAD GENERATOR
+=================================================================
+Target URL:    http://localhost:8000/predict
+Total Requests: 400
+Concurrency:   10
+Firing requests...
+-----------------------------------------------------------------
+LOAD GENERATION COMPLETE!
+Total Time:      7.26 seconds
+Achieved RPS:    55.10 req/sec
+Average Latency: 170.19 ms
+Status Code Histogram:
+  HTTP 200: 400 (100.0%)
+=================================================================

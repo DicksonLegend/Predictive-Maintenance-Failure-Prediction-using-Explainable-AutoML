@@ -27,8 +27,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /install
 COPY requirements-lite.txt requirements.txt ./
-RUN pip install --upgrade pip && \
-    pip install -r requirements-lite.txt
+RUN pip install --upgrade pip "setuptools<70" wheel && \
+    pip install --prefer-binary --no-cache-dir -r requirements-lite.txt
 RUN if [ "$INSTALL_AUTOML" = "true" ]; then pip install -r requirements.txt; fi
 
 # ------------------------------------------------------------------------------

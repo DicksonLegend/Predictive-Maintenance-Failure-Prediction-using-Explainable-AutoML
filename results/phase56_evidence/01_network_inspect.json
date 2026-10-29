@@ -1,0 +1,58 @@
+﻿[
+    {
+        "Name": "xai_monitoring",
+        "Id": "a53be7896c3cb464c626b3e2d80d670bcdb13b0e4275d2f5c9cb37b499fbf387",
+        "Created": "2026-10-27T16:36:45.039378159Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.21.0.0/16",
+                    "Gateway": "172.21.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {
+            "com.docker.network.enable_ipv4": "true"
+        },
+        "Labels": {},
+        "Containers": {
+            "cbd7fb412d60f1552bc5ed04cdbc82476ecb13995306fbb39fba1dd32621e5b1": {
+                "Name": "xai-grafana-tf",
+                "EndpointID": "df2b6638ed16c7c0db9cca837545a8f888be21dc9bd7457fe01cb973862be405",
+                "MacAddress": "02:1c:42:b4:d4:dd",
+                "IPv4Address": "172.21.0.3/16",
+                "IPv6Address": ""
+            },
+            "f0eae3f64f98b13c4455c3fa83d3b27b1b50973a02a48732f3e95d90159c60bf": {
+                "Name": "xai-prometheus-tf",
+                "EndpointID": "ed29169be4cd56644f42aab2d749d504b8a37163f09af16d8a6650eeb882887f",
+                "MacAddress": "8a:f7:41:04:dc:f6",
+                "IPv4Address": "172.21.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                    "172.21.0.0/16": {
+                        "IPsInUse": 5,
+                        "DynamicIPsAvailable": 65531
+                    }
+                }
+            }
+        }
+    }
+]

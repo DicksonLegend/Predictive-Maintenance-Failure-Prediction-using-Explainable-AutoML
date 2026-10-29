@@ -1,0 +1,89 @@
+﻿===========================================================================
+PHASE 5 AUTOMATED VALIDATION SUITE ù DEVOPS LAYER
+===========================================================================
+
+[CHECK GROUP 1] Required Phase 5 Files & Non-Empty Checks:
+  [PASS] requirements-dev.txt (169 bytes)
+  [PASS] ruff.toml (851 bytes)
+  [PASS] .bandit (210 bytes)
+  [PASS] .dockerignore (243 bytes)
+  [PASS] requirements-lite.txt (458 bytes)
+  [PASS] Dockerfile (3167 bytes)
+  [PASS] docker-compose.yml (705 bytes)
+  [PASS] docker-compose.monitoring.yml (1884 bytes)
+  [PASS] monitoring/prometheus/prometheus.yml (805 bytes)
+  [PASS] monitoring/prometheus/alerts.yml (1349 bytes)
+  [PASS] monitoring/grafana/provisioning/datasources/prometheus.yml (282 bytes)
+  [PASS] monitoring/grafana/provisioning/dashboards/dashboards.yml (250 bytes)
+  [PASS] monitoring/grafana/dashboards/xai-operations.json (6689 bytes)
+  [PASS] monitoring/alertmanager/alertmanager.yml (301 bytes)
+  [PASS] k8s/namespace.yaml (230 bytes)
+  [PASS] k8s/configmap.yaml (295 bytes)
+  [PASS] k8s/secret.yaml (613 bytes)
+  [PASS] k8s/deployment.yaml (1873 bytes)
+  [PASS] k8s/service.yaml (295 bytes)
+  [PASS] k8s/hpa.yaml (844 bytes)
+  [PASS] k8s/kustomization.yaml (332 bytes)
+  [PASS] terraform/versions.tf (407 bytes)
+  [PASS] terraform/variables.tf (902 bytes)
+  [PASS] terraform/main.tf (3191 bytes)
+  [PASS] terraform/outputs.tf (781 bytes)
+  [PASS] terraform/terraform.tfvars.example (320 bytes)
+  [PASS] terraform/README.md (2388 bytes)
+  [PASS] .github/workflows/ci-cd.yml (6846 bytes)
+  [PASS] .github/PULL_REQUEST_TEMPLATE.md (1623 bytes)
+  [PASS] .github/ISSUE_TEMPLATE/bug_report.md (905 bytes)
+  [PASS] .github/ISSUE_TEMPLATE/feature_request.md (919 bytes)
+  [PASS] CONTRIBUTING.md (4381 bytes)
+  [PASS] DEVOPS_SETUP_GUIDE.md (11608 bytes)
+  [PASS] scripts/build_image.ps1 (1638 bytes)
+  [PASS] scripts/build_image.sh (1251 bytes)
+  [PASS] scripts/run_app.ps1 (1527 bytes)
+  [PASS] scripts/run_app.sh (1261 bytes)
+  [PASS] scripts/deploy_k8s.ps1 (1526 bytes)
+  [PASS] scripts/deploy_k8s.sh (1379 bytes)
+  [PASS] scripts/teardown_k8s.ps1 (481 bytes)
+  [PASS] scripts/teardown_k8s.sh (449 bytes)
+  [PASS] scripts/start_monitoring.ps1 (990 bytes)
+  [PASS] scripts/start_monitoring.sh (952 bytes)
+  [PASS] scripts/stop_monitoring.ps1 (341 bytes)
+  [PASS] scripts/stop_monitoring.sh (445 bytes)
+  [PASS] scripts/generate_load.py (4525 bytes)
+  [PASS] scripts/validate_phase5.py (8228 bytes)
+  [PASS] reports/devops_phase5_results.md (26044 bytes)
+  [PASS] ASSUMPTIONS_PHASE5.md (7265 bytes)
+  [PASS] results/phase5_metadata.json (2602 bytes)
+  [PASS] results/phase5_run.log (2940 bytes)
+  [PASS] results/phase5_error_log.json (3 bytes)
+  [PASS] results/k8s_dryrun_output.yaml (9383 bytes, client dry-run verified)
+
+[CHECK GROUP 2] Declarative Syntax Parsing (YAML & JSON):
+  [PASS] Valid YAML: .github\workflows\ci-cd.yml
+  [PASS] Valid YAML: k8s\configmap.yaml
+  [PASS] Valid YAML: k8s\deployment.yaml
+  [PASS] Valid YAML: k8s\hpa.yaml
+  [PASS] Valid YAML: k8s\kustomization.yaml
+  [PASS] Valid YAML: k8s\namespace.yaml
+  [PASS] Valid YAML: k8s\secret.yaml
+  [PASS] Valid YAML: k8s\service.yaml
+  [PASS] Valid YAML: monitoring\alertmanager\alertmanager.yml
+  [PASS] Valid YAML: monitoring\grafana\provisioning\dashboards\dashboards.yml
+  [PASS] Valid YAML: monitoring\grafana\provisioning\datasources\prometheus.yml
+  [PASS] Valid YAML: monitoring\prometheus\alerts.yml
+  [PASS] Valid YAML: monitoring\prometheus\prometheus.yml
+  [PASS] Valid YAML: docker-compose.monitoring.yml
+  [PASS] Valid YAML: docker-compose.yml
+  [PASS] Valid Grafana Dashboard JSON: Predictive Maintenance XAI ù Operations Dashboard (8 panels)
+
+[CHECK GROUP 3] Pytest API Test Suite (11/11 Tests):
+  [PASS] All 11 pytest integration tests passed successfully (100% PASS)!
+
+[CHECK GROUP 4] Multi-Phase Regression Verification:
+  [PASS] Phase 2 Regression Check: 31/31 PASS (Baseline & Tuned RF Models)
+  [PASS] Phase 3 Regression Check: 39/39 PASS (AutoML & Critical Evaluation)
+  [PASS] Phase 4 Regression Check: 43/43 PASS (XAI Dashboard & API Integration)
+
+===========================================================================
+PHASE 5 VALIDATION SUMMARY: 73/73 CHECKS PASSED
+OVERALL STATUS: PASS (Phase 5 DevOps Layer 100% Validated)
+===========================================================================

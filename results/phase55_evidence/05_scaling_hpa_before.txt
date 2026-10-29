@@ -1,0 +1,2 @@
+NAME          REFERENCE            TARGETS                        MINPODS   MAXPODS   REPLICAS   AGE
+xai-api-hpa   Deployment/xai-api   cpu: 3%/60%, memory: 36%/80%   1         4         3          7m36s

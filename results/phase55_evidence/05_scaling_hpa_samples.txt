@@ -1,0 +1,72 @@
+=== SAMPLE 1/6 at 22:00:24 ===
+[HPA]
+NAME          REFERENCE            TARGETS                        MINPODS   MAXPODS   REPLICAS   AGE
+xai-api-hpa   Deployment/xai-api   cpu: 3%/60%, memory: 36%/80%   1         4         3          7m44s
+
+[TOP PODS]
+NAME                       CPU(cores)   MEMORY(bytes)   
+xai-api-5865cb77f4-hmfdh   420m         184Mi           
+xai-api-5865cb77f4-mjhsb   176m         185Mi           
+xai-api-5865cb77f4-mtfhv   3m           185Mi           
+
+
+=== SAMPLE 2/6 at 22:00:34 ===
+[HPA]
+NAME          REFERENCE            TARGETS                        MINPODS   MAXPODS   REPLICAS   AGE
+xai-api-hpa   Deployment/xai-api   cpu: 3%/60%, memory: 36%/80%   1         4         3          7m55s
+
+[TOP PODS]
+NAME                       CPU(cores)   MEMORY(bytes)   
+xai-api-5865cb77f4-hmfdh   420m         184Mi           
+xai-api-5865cb77f4-mjhsb   176m         185Mi           
+xai-api-5865cb77f4-mtfhv   3m           185Mi           
+
+
+=== SAMPLE 3/6 at 22:00:45 ===
+[HPA]
+NAME          REFERENCE            TARGETS                          MINPODS   MAXPODS   REPLICAS   AGE
+xai-api-hpa   Deployment/xai-api   cpu: 176%/60%, memory: 36%/80%   1         4         3          8m5s
+
+[TOP PODS]
+NAME                       CPU(cores)   MEMORY(bytes)   
+xai-api-5865cb77f4-hmfdh   4m           185Mi           
+xai-api-5865cb77f4-mjhsb   3m           185Mi           
+xai-api-5865cb77f4-mtfhv   349m         187Mi           
+
+
+=== SAMPLE 4/6 at 22:00:55 ===
+[HPA]
+NAME          REFERENCE            TARGETS                          MINPODS   MAXPODS   REPLICAS   AGE
+xai-api-hpa   Deployment/xai-api   cpu: 176%/60%, memory: 36%/80%   1         4         3          8m15s
+
+[TOP PODS]
+NAME                       CPU(cores)   MEMORY(bytes)   
+xai-api-5865cb77f4-hmfdh   3m           185Mi           
+xai-api-5865cb77f4-mjhsb   3m           185Mi           
+xai-api-5865cb77f4-mtfhv   4m           187Mi           
+
+
+=== SAMPLE 5/6 at 22:01:05 ===
+[HPA]
+NAME          REFERENCE            TARGETS                        MINPODS   MAXPODS   REPLICAS   AGE
+xai-api-hpa   Deployment/xai-api   cpu: 3%/60%, memory: 36%/80%   1         4         4          8m25s
+
+[TOP PODS]
+NAME                       CPU(cores)   MEMORY(bytes)   
+xai-api-5865cb77f4-hmfdh   3m           185Mi           
+xai-api-5865cb77f4-mjhsb   3m           185Mi           
+xai-api-5865cb77f4-mtfhv   4m           187Mi           
+
+
+=== SAMPLE 6/6 at 22:01:15 ===
+[HPA]
+NAME          REFERENCE            TARGETS                        MINPODS   MAXPODS   REPLICAS   AGE
+xai-api-hpa   Deployment/xai-api   cpu: 4%/60%, memory: 36%/80%   1         4         4          8m36s
+
+[TOP PODS]
+NAME                       CPU(cores)   MEMORY(bytes)   
+xai-api-5865cb77f4-9fgkm   10m          188Mi           
+xai-api-5865cb77f4-hmfdh   4m           185Mi           
+xai-api-5865cb77f4-mjhsb   4m           185Mi           
+xai-api-5865cb77f4-mtfhv   4m           187Mi           
+

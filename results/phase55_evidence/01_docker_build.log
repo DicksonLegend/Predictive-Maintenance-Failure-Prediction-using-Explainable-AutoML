@@ -1,0 +1,331 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.21kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:20-alpine
+#2 ...
+
+#3 [auth] library/python:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#5 [internal] load metadata for docker.io/library/python:3.11-slim
+#5 DONE 4.7s
+
+#2 [internal] load metadata for docker.io/library/node:20-alpine
+#2 DONE 4.7s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 285B done
+#6 DONE 0.0s
+
+#7 [frontend-builder 1/6] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#7 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#7 DONE 0.0s
+
+#8 [python-deps 1/5] FROM docker.io/library/python:3.11-slim@sha256:ae952e0a57138a4317b9b61caaa19a8217c2f356803f8d7e63aad08769950937
+#8 resolve docker.io/library/python:3.11-slim@sha256:ae952e0a57138a4317b9b61caaa19a8217c2f356803f8d7e63aad08769950937 0.0s done
+#8 DONE 0.0s
+
+#9 [runtime  2/13] WORKDIR /app
+#9 CACHED
+
+#10 [runtime  3/13] RUN groupadd -g 10001 appgroup &&     useradd -u 10001 -g appgroup -s /bin/sh -m appuser
+#10 CACHED
+
+#11 [internal] load build context
+#11 transferring context: 13.10kB 0.0s done
+#11 DONE 0.0s
+
+#12 [python-deps 2/5] WORKDIR /install
+#12 CACHED
+
+#13 [frontend-builder 2/6] WORKDIR /fe
+#13 CACHED
+
+#14 [frontend-builder 3/6] COPY app/frontend/package*.json ./
+#14 CACHED
+
+#15 [frontend-builder 4/6] RUN npm ci || npm install
+#15 CACHED
+
+#16 [frontend-builder 5/6] COPY app/frontend/ ./
+#16 CACHED
+
+#17 [frontend-builder 6/6] RUN npm run build
+#17 CACHED
+
+#18 [python-deps 3/5] COPY requirements-lite.txt requirements.txt ./
+#18 DONE 0.0s
+
+#19 [python-deps 4/5] RUN pip install --upgrade pip "setuptools<70" wheel &&     pip install --prefer-binary --no-cache-dir -r requirements-lite.txt
+#19 1.911 Requirement already satisfied: pip in /usr/local/lib/python3.11/site-packages (24.0)
+#19 2.754 Collecting pip
+#19 3.056   Downloading pip-26.2.2-py3-none-any.whl.metadata (4.6 kB)
+#19 3.498 Collecting setuptools<70
+#19 3.698   Downloading setuptools-69.5.1-py3-none-any.whl.metadata (6.2 kB)
+#19 3.702 Requirement already satisfied: wheel in /usr/local/lib/python3.11/site-packages (0.46.3)
+#19 4.191 Collecting wheel
+#19 4.524   Downloading wheel-0.48.0-py3-none-any.whl.metadata (2.3 kB)
+#19 4.555 Requirement already satisfied: packaging>=24.0 in /usr/local/lib/python3.11/site-packages (from wheel) (26.3)
+#19 4.636 Downloading pip-26.2.2-py3-none-any.whl (1.8 MB)
+#19 5.632    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 1.9 MB/s eta 0:00:00
+#19 5.683 Downloading setuptools-69.5.1-py3-none-any.whl (894 kB)
+#19 5.931    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 894.6/894.6 kB 3.6 MB/s eta 0:00:00
+#19 6.572 Downloading wheel-0.48.0-py3-none-any.whl (33 kB)
+#19 6.659 Installing collected packages: wheel, setuptools, pip
+#19 6.659   Attempting uninstall: wheel
+#19 6.662     Found existing installation: wheel 0.46.3
+#19 6.677     Uninstalling wheel-0.46.3:
+#19 6.706       Successfully uninstalled wheel-0.46.3
+#19 6.738   Attempting uninstall: setuptools
+#19 6.742     Found existing installation: setuptools 79.0.1
+#19 6.797     Uninstalling setuptools-79.0.1:
+#19 7.172       Successfully uninstalled setuptools-79.0.1
+#19 7.734   Attempting uninstall: pip
+#19 7.736     Found existing installation: pip 24.0
+#19 7.779     Uninstalling pip-24.0:
+#19 8.104       Successfully uninstalled pip-24.0
+#19 8.951 Successfully installed pip-26.2.2 setuptools-69.5.1 wheel-0.48.0
+#19 8.952 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#19 16.57 Collecting pandas (from -r requirements-lite.txt (line 6))
+#19 17.52   Downloading pandas-3.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (18 kB)
+#19 18.77 Collecting numpy (from -r requirements-lite.txt (line 7))
+#19 19.47   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+#19 20.63 Collecting scikit-learn (from -r requirements-lite.txt (line 8))
+#19 21.97   Downloading scikit_learn-1.9.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.3 kB)
+#19 22.40 Collecting matplotlib (from -r requirements-lite.txt (line 9))
+#19 22.46   Downloading matplotlib-3.11.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (80 kB)
+#19 22.82 Collecting seaborn (from -r requirements-lite.txt (line 10))
+#19 22.91   Downloading seaborn-0.13.2-py3-none-any.whl.metadata (5.4 kB)
+#19 23.04 Collecting shap (from -r requirements-lite.txt (line 11))
+#19 23.13   Downloading shap-0.51.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (25 kB)
+#19 23.34 Collecting lime (from -r requirements-lite.txt (line 12))
+#19 23.42   Downloading lime-0.2.0.1.tar.gz (275 kB)
+#19 24.09   Installing build dependencies: started
+#19 26.66   Installing build dependencies: finished with status 'done'
+#19 26.66   Getting requirements to build wheel: started
+#19 27.44   Getting requirements to build wheel: finished with status 'done'
+#19 27.45   Preparing metadata (pyproject.toml): started
+#19 28.14   Preparing metadata (pyproject.toml): finished with status 'done'
+#19 28.23 Collecting optuna (from -r requirements-lite.txt (line 13))
+#19 28.33   Downloading optuna-5.0.0-py3-none-any.whl.metadata (14 kB)
+#19 28.60 Collecting fastapi (from -r requirements-lite.txt (line 14))
+#19 28.69   Downloading fastapi-0.162.0-py3-none-any.whl.metadata (26 kB)
+#19 28.81 Collecting uvicorn (from -r requirements-lite.txt (line 15))
+#19 28.91   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#19 29.11 Collecting pydantic (from -r requirements-lite.txt (line 16))
+#19 29.19   Downloading pydantic-2.14.1-py3-none-any.whl.metadata (133 kB)
+#19 29.62 Collecting joblib (from -r requirements-lite.txt (line 17))
+#19 29.70   Downloading joblib-1.6.0-py3-none-any.whl.metadata (6.5 kB)
+#19 29.78 Collecting prometheus-fastapi-instrumentator (from -r requirements-lite.txt (line 18))
+#19 29.86   Downloading prometheus_fastapi_instrumentator-8.1.0-py3-none-any.whl.metadata (13 kB)
+#19 29.97 Collecting python-dateutil>=2.9.0 (from pandas->-r requirements-lite.txt (line 6))
+#19 30.02   Downloading python_dateutil-3.0.0-py2.py3-none-any.whl.metadata (8.2 kB)
+#19 30.26 Collecting scipy>=1.10.0 (from scikit-learn->-r requirements-lite.txt (line 8))
+#19 30.33   Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+#19 30.55 Collecting narwhals>=2.0.1 (from scikit-learn->-r requirements-lite.txt (line 8))
+#19 30.64   Downloading narwhals-2.28.0-py3-none-any.whl.metadata (15 kB)
+#19 30.73 Collecting threadpoolctl>=3.5.0 (from scikit-learn->-r requirements-lite.txt (line 8))
+#19 31.01   Downloading threadpoolctl-3.7.0-py3-none-any.whl.metadata (24 kB)
+#19 31.49 Collecting contourpy>=1.0.1 (from matplotlib->-r requirements-lite.txt (line 9))
+#19 31.67   Downloading contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+#19 32.01 Collecting cycler>=0.10 (from matplotlib->-r requirements-lite.txt (line 9))
+#19 32.30   Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+#19 32.84 Collecting fonttools>=4.28.2 (from matplotlib->-r requirements-lite.txt (line 9))
+#19 32.97   Downloading fonttools-4.67.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (137 kB)
+#19 34.11 Collecting kiwisolver>=1.3.1 (from matplotlib->-r requirements-lite.txt (line 9))
+#19 36.66   Downloading kiwisolver-1.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.2 kB)
+#19 36.67 Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.11/site-packages (from matplotlib->-r requirements-lite.txt (line 9)) (26.3)
+#19 37.12 Collecting pillow>=9 (from matplotlib->-r requirements-lite.txt (line 9))
+#19 37.30   Downloading pillow-13.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#19 37.39 Collecting pyparsing>=3 (from matplotlib->-r requirements-lite.txt (line 9))
+#19 37.48   Downloading pyparsing-3.3.3-py3-none-any.whl.metadata (5.9 kB)
+#19 37.59 Collecting tqdm>=4.27.0 (from shap->-r requirements-lite.txt (line 11))
+#19 37.65   Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+#19 37.89 Collecting slicer==0.0.8 (from shap->-r requirements-lite.txt (line 11))
+#19 37.96   Downloading slicer-0.0.8-py3-none-any.whl.metadata (4.0 kB)
+#19 38.17 Collecting numba (from shap->-r requirements-lite.txt (line 11))
+#19 38.23   Downloading numba-0.68.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (2.8 kB)
+#19 38.35 Collecting llvmlite (from shap->-r requirements-lite.txt (line 11))
+#19 38.41   Downloading llvmlite-0.50.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.1 kB)
+#19 38.50 Collecting cloudpickle (from shap->-r requirements-lite.txt (line 11))
+#19 38.55   Downloading cloudpickle-3.1.2-py3-none-any.whl.metadata (7.1 kB)
+#19 38.61 Collecting typing-extensions (from shap->-r requirements-lite.txt (line 11))
+#19 38.68   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#19 38.85 Collecting scikit-image>=0.12 (from lime->-r requirements-lite.txt (line 12))
+#19 38.96   Downloading scikit_image-0.26.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (15 kB)
+#19 39.10 Collecting alembic>=1.5.0 (from optuna->-r requirements-lite.txt (line 13))
+#19 39.19   Downloading alembic-1.20.1-py3-none-any.whl.metadata (7.3 kB)
+#19 39.26 Collecting colorlog (from optuna->-r requirements-lite.txt (line 13))
+#19 39.33   Downloading colorlog-6.12.0-py3-none-any.whl.metadata (11 kB)
+#19 40.10 Collecting sqlalchemy>=1.4.2 (from optuna->-r requirements-lite.txt (line 13))
+#19 40.18   Downloading sqlalchemy-2.1.6-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (9.7 kB)
+#19 40.32 Collecting PyYAML (from optuna->-r requirements-lite.txt (line 13))
+#19 40.41   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+#19 40.52 Collecting starlette>=0.46.0 (from fastapi->-r requirements-lite.txt (line 14))
+#19 40.58   Downloading starlette-1.10.0-py3-none-any.whl.metadata (6.6 kB)
+#19 40.63 Collecting typing-inspection>=0.4.2 (from fastapi->-r requirements-lite.txt (line 14))
+#19 40.71   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#19 40.76 Collecting annotated-doc>=0.0.2 (from fastapi->-r requirements-lite.txt (line 14))
+#19 40.81   Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+#19 40.88 Collecting opentelemetry-api>=1.44.0 (from fastapi->-r requirements-lite.txt (line 14))
+#19 40.96   Downloading opentelemetry_api-1.45.1-py3-none-any.whl.metadata (1.4 kB)
+#19 41.04 Collecting click>=7.0 (from uvicorn->-r requirements-lite.txt (line 15))
+#19 41.10   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#19 41.21 Collecting h11>=0.8 (from uvicorn->-r requirements-lite.txt (line 15))
+#19 41.30   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#19 41.37 Collecting annotated-types>=0.6.0 (from pydantic->-r requirements-lite.txt (line 16))
+#19 41.42   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#19 42.60 Collecting pydantic-core==2.50.1 (from pydantic->-r requirements-lite.txt (line 16))
+#19 42.68   Downloading pydantic_core-2.50.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+#19 42.75 Collecting prometheus-client<1.0.0,>=0.8.0 (from prometheus-fastapi-instrumentator->-r requirements-lite.txt (line 18))
+#19 42.82   Downloading prometheus_client-0.26.0-py3-none-any.whl.metadata (2.1 kB)
+#19 42.95 Collecting anyio<5,>=4.0.0 (from starlette>=0.46.0->fastapi->-r requirements-lite.txt (line 14))
+#19 43.01   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+#19 43.12 Collecting idna>=2.8 (from anyio<5,>=4.0.0->starlette>=0.46.0->fastapi->-r requirements-lite.txt (line 14))
+#19 43.21   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#19 43.42 Collecting Mako (from alembic>=1.5.0->optuna->-r requirements-lite.txt (line 13))
+#19 43.52   Downloading mako-1.4.3-py3-none-any.whl.metadata (2.9 kB)
+#19 43.74 Collecting six>=1.6 (from python-dateutil>=2.9.0->pandas->-r requirements-lite.txt (line 6))
+#19 44.04   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#19 44.30 Collecting tzdata (from python-dateutil>=2.9.0->pandas->-r requirements-lite.txt (line 6))
+#19 44.51   Downloading tzdata-2026.5-py2.py3-none-any.whl.metadata (1.4 kB)
+#19 44.61 Collecting networkx>=3.0 (from scikit-image>=0.12->lime->-r requirements-lite.txt (line 12))
+#19 44.70   Downloading networkx-3.6.1-py3-none-any.whl.metadata (6.8 kB)
+#19 45.09 Collecting imageio!=2.35.0,>=2.33 (from scikit-image>=0.12->lime->-r requirements-lite.txt (line 12))
+#19 45.15   Downloading imageio-2.38.1-py3-none-any.whl.metadata (9.7 kB)
+#19 45.55 Collecting tifffile>=2022.8.12 (from scikit-image>=0.12->lime->-r requirements-lite.txt (line 12))
+#19 45.69   Downloading tifffile-2026.3.3-py3-none-any.whl.metadata (31 kB)
+#19 46.00 Collecting lazy-loader>=0.4 (from scikit-image>=0.12->lime->-r requirements-lite.txt (line 12))
+#19 46.10   Downloading lazy_loader-0.6-py3-none-any.whl.metadata (6.0 kB)
+#19 46.25 Collecting MarkupSafe>=2.0 (from Mako->alembic>=1.5.0->optuna->-r requirements-lite.txt (line 13))
+#19 46.30   Downloading markupsafe-3.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+#19 46.37 Downloading pandas-3.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.3 MB)
+#19 54.93    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.3/12.3 MB 1.5 MB/s  0:00:08
+#19 55.50 Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+#19 73.16    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 958.7 kB/s  0:00:17
+#19 73.71 Downloading scikit_learn-1.9.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (9.3 MB)
+#19 76.17    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.3/9.3 MB 3.8 MB/s  0:00:02
+#19 79.68 Downloading matplotlib-3.11.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (9.9 MB)
+#19 82.09    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.9/9.9 MB 4.1 MB/s  0:00:02
+#19 83.76 Downloading seaborn-0.13.2-py3-none-any.whl (294 kB)
+#19 84.56 Downloading shap-0.51.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.1 MB)
+#19 84.87    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 3.4 MB/s  0:00:00
+#19 85.19 Downloading slicer-0.0.8-py3-none-any.whl (15 kB)
+#19 89.19 Downloading optuna-5.0.0-py3-none-any.whl (442 kB)
+#19 89.70 Downloading fastapi-0.162.0-py3-none-any.whl (148 kB)
+#19 90.10 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#19 90.20 Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+#19 90.43 Downloading pydantic_core-2.50.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+#19 91.10    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 3.1 MB/s  0:00:00
+#19 91.24 Downloading joblib-1.6.0-py3-none-any.whl (306 kB)
+#19 91.45 Downloading prometheus_fastapi_instrumentator-8.1.0-py3-none-any.whl (19 kB)
+#19 91.58 Downloading prometheus_client-0.26.0-py3-none-any.whl (64 kB)
+#19 91.68 Downloading starlette-1.10.0-py3-none-any.whl (80 kB)
+#19 91.78 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#19 91.92 Downloading alembic-1.20.1-py3-none-any.whl (270 kB)
+#19 92.18 Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+#19 92.30 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#19 92.48 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#19 92.60 Downloading cloudpickle-3.1.2-py3-none-any.whl (22 kB)
+#19 92.81 Downloading contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (355 kB)
+#19 93.03 Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+#19 93.17 Downloading fonttools-4.67.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.5 MB)
+#19 94.68    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.5/5.5 MB 3.5 MB/s  0:00:01
+#19 94.96 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#19 95.25 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#19 95.40 Downloading kiwisolver-1.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.4 MB)
+#19 95.91    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 2.8 MB/s  0:00:00
+#19 96.07 Downloading narwhals-2.28.0-py3-none-any.whl (490 kB)
+#19 96.53 Downloading opentelemetry_api-1.45.1-py3-none-any.whl (60 kB)
+#19 96.83 Downloading pillow-13.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+#19 99.24    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 2.9 MB/s  0:00:02
+#19 99.33 Downloading pyparsing-3.3.3-py3-none-any.whl (126 kB)
+#19 99.44 Downloading python_dateutil-3.0.0-py2.py3-none-any.whl (94 kB)
+#19 99.61 Downloading scikit_image-0.26.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (13.7 MB)
+#19 103.9    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.7/13.7 MB 3.2 MB/s  0:00:04
+#19 104.1 Downloading imageio-2.38.1-py3-none-any.whl (328 kB)
+#19 104.5 Downloading lazy_loader-0.6-py3-none-any.whl (8.8 kB)
+#19 104.7 Downloading networkx-3.6.1-py3-none-any.whl (2.1 MB)
+#19 105.2    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 3.8 MB/s  0:00:00
+#19 105.5 Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+#19 121.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 2.2 MB/s  0:00:15
+#19 124.2 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#19 126.8 Downloading sqlalchemy-2.1.6-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.7 MB)
+#19 129.3    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 1.8 MB/s  0:00:02
+#19 138.9 Downloading threadpoolctl-3.7.0-py3-none-any.whl (26 kB)
+#19 140.6 Downloading tifffile-2026.3.3-py3-none-any.whl (243 kB)
+#19 141.3 Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+#19 142.1 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#19 142.5 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#19 142.8 Downloading colorlog-6.12.0-py3-none-any.whl (12 kB)
+#19 143.0 Downloading llvmlite-0.50.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (59.7 MB)
+#19 239.0    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.7/59.7 MB 951.9 kB/s  0:01:35
+#19 239.1 Downloading mako-1.4.3-py3-none-any.whl (80 kB)
+#19 239.3 Downloading markupsafe-3.0.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+#19 239.5 Downloading numba-0.68.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (3.8 MB)
+#19 248.4    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.8/3.8 MB 443.3 kB/s  0:00:08
+#19 250.9 Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+#19 252.2    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 517.7 kB/s  0:00:01
+#19 252.2 Downloading tzdata-2026.5-py2.py3-none-any.whl (347 kB)
+#19 252.9 Building wheels for collected packages: lime
+#19 252.9   Building wheel for lime (pyproject.toml): started
+#19 253.6   Building wheel for lime (pyproject.toml): finished with status 'done'
+#19 253.6   Created wheel for lime: filename=lime-0.2.0.1-py3-none-any.whl size=283913 sha256=1413840357809ec762b62ff1536283b9f98951a1040a3bd43be31f630720ac7e
+#19 253.6   Stored in directory: /tmp/pip-ephem-wheel-cache-pfx085r4/wheels/85/fa/a3/9c2d44c9f3cd77cf4e533b58900b2bf4487f2a17e8ec212a3d
+#19 253.6 Successfully built lime
+#19 253.8 Installing collected packages: tzdata, typing-extensions, tqdm, threadpoolctl, slicer, six, PyYAML, pyparsing, prometheus-client, pillow, numpy, networkx, narwhals, MarkupSafe, llvmlite, lazy-loader, kiwisolver, idna, h11, fonttools, cycler, colorlog, cloudpickle, click, annotated-types, annotated-doc, uvicorn, typing-inspection, tifffile, sqlalchemy, scipy, python-dateutil, pydantic-core, opentelemetry-api, numba, Mako, joblib, imageio, contourpy, anyio, starlette, scikit-learn, scikit-image, pydantic, pandas, matplotlib, alembic, shap, seaborn, prometheus-fastapi-instrumentator, optuna, lime, fastapi
+#19 277.9 
+#19 277.9 Successfully installed Mako-1.4.3 MarkupSafe-3.0.4 PyYAML-6.0.3 alembic-1.20.1 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 click-8.5.0 cloudpickle-3.1.2 colorlog-6.12.0 contourpy-1.3.3 cycler-0.12.1 fastapi-0.162.0 fonttools-4.67.0 h11-0.16.0 idna-3.20 imageio-2.38.1 joblib-1.6.0 kiwisolver-1.5.1 lazy-loader-0.6 lime-0.2.0.1 llvmlite-0.50.0 matplotlib-3.11.2 narwhals-2.28.0 networkx-3.6.1 numba-0.68.0 numpy-2.4.6 opentelemetry-api-1.45.1 optuna-5.0.0 pandas-3.1.0 pillow-13.0.0 prometheus-client-0.26.0 prometheus-fastapi-instrumentator-8.1.0 pydantic-2.14.1 pydantic-core-2.50.1 pyparsing-3.3.3 python-dateutil-3.0.0 scikit-image-0.26.0 scikit-learn-1.9.1 scipy-1.17.1 seaborn-0.13.2 shap-0.51.0 six-1.17.0 slicer-0.0.8 sqlalchemy-2.1.6 starlette-1.10.0 threadpoolctl-3.7.0 tifffile-2026.3.3 tqdm-4.70.1 typing-extensions-4.16.0 typing-inspection-0.4.4 tzdata-2026.5 uvicorn-0.54.0
+#19 277.9 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#19 DONE 279.0s
+
+#20 [python-deps 5/5] RUN if [ "false" = "true" ]; then pip install -r requirements.txt; fi
+#20 DONE 0.7s
+
+#21 [runtime  4/13] COPY --from=python-deps /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+#21 DONE 6.5s
+
+#22 [runtime  5/13] COPY --from=python-deps /usr/local/bin /usr/local/bin
+#22 DONE 0.3s
+
+#23 [runtime  6/13] COPY app/ ./app/
+#23 DONE 0.1s
+
+#24 [runtime  7/13] COPY src/ ./src/
+#24 DONE 0.1s
+
+#25 [runtime  8/13] COPY models/ ./models/
+#25 DONE 0.4s
+
+#26 [runtime  9/13] COPY artifacts/ ./artifacts/
+#26 DONE 0.1s
+
+#27 [runtime 10/13] COPY data/processed/ ./data/processed/
+#27 DONE 0.1s
+
+#28 [runtime 11/13] COPY reports/model_card.md ./reports/model_card.md
+#28 DONE 0.0s
+
+#29 [runtime 12/13] COPY --from=frontend-builder /fe/dist ./app/frontend/dist
+#29 DONE 0.0s
+
+#30 [runtime 13/13] RUN mkdir -p /app/logs &&     chown -R appuser:appgroup /app
+#30 DONE 1.0s
+
+#31 exporting to image
+#31 exporting layers
+#31 exporting layers 27.6s done
+#31 exporting manifest sha256:5e2abcbb235779b4023696420280b54fa843b3b31babaee10ef6a5c6d8c127cd 0.0s done
+#31 exporting config sha256:000e511381343cc882a2e3dfe719bf6e5c813e982a306fffab86de17012e6c12 0.0s done
+#31 exporting attestation manifest sha256:1d90b775ce44713e6c5c6706bc346e7bb9d4175880ee1202cf4d1948af24f316 0.0s done
+#31 exporting manifest list sha256:768c0c8320496635345112945d59c57c4607e66bf260ff17aa0676cbc9c12722 0.0s done
+#31 naming to docker.io/library/xai-automl:lite done
+#31 unpacking to docker.io/library/xai-automl:lite
+#31 unpacking to docker.io/library/xai-automl:lite 9.3s done
+#31 DONE 37.0s

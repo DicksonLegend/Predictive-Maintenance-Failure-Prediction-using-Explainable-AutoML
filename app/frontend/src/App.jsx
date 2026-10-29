@@ -151,7 +151,7 @@ export default function App() {
             <div className="card">
               <h2>Operational Risk Framework</h2>
               <p style={{ color: 'var(--text-secondary)', marginBottom: '16px', fontSize: '0.9rem' }}>
-                Failure probabilities $P(\text{failure} \mid \mathbf{x})$ are mapped to standard operational risk bands:
+                Failure probabilities P(failure | x) are mapped to standard operational risk bands:
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ padding: '12px', background: '#121929', borderRadius: '6px', borderLeft: '4px solid #10b981' }}>
@@ -309,7 +309,7 @@ export default function App() {
               <div>
                 <h3>Partial Dependence: Torque [Nm]</h3>
                 <PlotImage
-                  src="/artifacts/xai/global/pdp_torque.png"
+                  src="/artifacts/xai/global/pdp_torque.png?v=2"
                   alt="PDP Torque"
                   caption="Marginal effect of torque on failure probability."
                 />
@@ -317,7 +317,7 @@ export default function App() {
               <div>
                 <h3>Partial Dependence: Tool Wear [min]</h3>
                 <PlotImage
-                  src="/artifacts/xai/global/pdp_tool_wear.png"
+                  src="/artifacts/xai/global/pdp_tool_wear.png?v=2"
                   alt="PDP Tool Wear"
                   caption="Marginal effect of cumulative tool wear on failure risk."
                 />
@@ -325,7 +325,7 @@ export default function App() {
               <div>
                 <h3>Partial Dependence: Rotational Speed [rpm]</h3>
                 <PlotImage
-                  src="/artifacts/xai/global/pdp_rotational_speed.png"
+                  src="/artifacts/xai/global/pdp_rotational_speed.png?v=2"
                   alt="PDP Rotational Speed"
                   caption="Marginal effect of spindle RPM on failure probability."
                 />
@@ -333,7 +333,7 @@ export default function App() {
               <div>
                 <h3>Partial Dependence: Process Temperature [K]</h3>
                 <PlotImage
-                  src="/artifacts/xai/global/pdp_process_temp.png"
+                  src="/artifacts/xai/global/pdp_process_temp.png?v=2"
                   alt="PDP Process Temp"
                   caption="Marginal effect of process temperature on failure probability."
                 />

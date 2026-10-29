@@ -1,0 +1,4 @@
+NAME                       READY   STATUS    RESTARTS   AGE    IP            NODE                    NOMINATED NODE   READINESS GATES
+xai-api-5865cb77f4-hmfdh   1/1     Running   0          12s    10.244.0.12   desktop-control-plane   <none>           <none>
+xai-api-5865cb77f4-mjhsb   1/1     Running   0          12s    10.244.0.13   desktop-control-plane   <none>           <none>
+xai-api-5865cb77f4-mtfhv   1/1     Running   0          119s   10.244.0.11   desktop-control-plane   <none>           <none>

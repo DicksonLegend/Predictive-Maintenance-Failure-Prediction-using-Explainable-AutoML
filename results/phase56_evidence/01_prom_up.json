@@ -1,0 +1,1 @@
+﻿{"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"up","instance":"localhost:9090","job":"prometheus"},"value":[1793124498.135,"1"]},{"metric":{"__name__":"up","instance":"host.docker.internal:8000","job":"xai-api"},"value":[1793124498.135,"1"]}]}}

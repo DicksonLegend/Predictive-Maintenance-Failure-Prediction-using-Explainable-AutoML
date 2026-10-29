@@ -57,3 +57,4 @@ results/terraform_plan.txt
 
 # Linters and security caches
 .ruff_cache/
+results/disk_cleanup/

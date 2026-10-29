@@ -1,0 +1,1 @@
+{"input":{"type":"L","air_temp":300.0,"process_temp":310.0,"rotational_speed":1500.0,"torque":40.0,"tool_wear":50.0},"prediction":{"failure_probability":0.0,"predicted_class":0,"risk_level":"Low","threshold":0.5},"model":{"name":"Fallback Random Forest","source":"Phase 4 Fallback RandomForest"}}

@@ -330,30 +330,48 @@ def generate_all_global_artifacts(sample_size: int = 50) -> Dict[str, Any]:
     plt.close(fig_fi)
 
     # Partial Dependence Plots (PDP)
-    estimator = (
-        model_service.served_model.model.estimator
-        if hasattr(model_service.served_model, "model") and hasattr(model_service.served_model.model, "estimator")
-        else model_service.served_model
-    )
-
-    pdp_features = [
-        ("torque", "pdp_torque.png"),
-        ("tool_wear", "pdp_tool_wear.png"),
-        ("rotational_speed", "pdp_rotational_speed.png"),
-        ("process_temp", "pdp_process_temp.png"),
+    pdp_configs = [
+        ("torque", "Torque [Nm]", "pdp_torque.png", "#38bdf8"),
+        ("tool_wear", "Tool Wear [min]", "pdp_tool_wear.png", "#f59e0b"),
+        ("rotational_speed", "Rotational Speed [rpm]", "pdp_rotational_speed.png", "#10b981"),
+        ("process_temp", "Process Temperature [K]", "pdp_process_temp.png", "#ef4444"),
     ]
 
-    for feat_name, filename in pdp_features:
-        fig_pdp, ax_pdp = plt.subplots(figsize=(6, 4), dpi=100)
+    sample_for_pdp = X_t.sample(n=min(300, len(X_t)), random_state=42)
+
+    for feat_name, label, filename, color in pdp_configs:
+        fig_pdp, ax_pdp = plt.subplots(figsize=(6, 4), dpi=120)
+        fig_pdp.patch.set_facecolor("#0f172a")
+        ax_pdp.set_facecolor("#1e293b")
         try:
-            PartialDependenceDisplay.from_estimator(estimator, X_t, features=[feat_name], ax=ax_pdp)
-            ax_pdp.set_title(f"Partial Dependence Plot: {feat_name}", fontsize=11, fontweight="bold")
-            ax_pdp.grid(True, linestyle="--", alpha=0.5)
+            if hasattr(model_service.served_model, "predict_proba"):
+                vals = np.linspace(sample_for_pdp[feat_name].min(), sample_for_pdp[feat_name].max(), 50)
+                pdp_probs = []
+                for v in vals:
+                    temp_df = sample_for_pdp.copy()
+                    temp_df[feat_name] = v
+                    proba = model_service.served_model.predict_proba(temp_df)
+                    if isinstance(proba, pd.DataFrame):
+                        p = proba.iloc[:, 1].mean() if proba.shape[1] > 1 else proba.iloc[:, 0].mean()
+                    else:
+                        p = proba[:, 1].mean()
+                    pdp_probs.append(p)
+                ax_pdp.plot(vals, pdp_probs, color=color, linewidth=2.5, label="Marginal Failure Prob")
+                ax_pdp.fill_between(vals, pdp_probs, alpha=0.2, color=color)
+                ax_pdp.set_title(f"Partial Dependence: {label}", fontsize=11, fontweight="bold", color="#f8fafc", pad=10)
+                ax_pdp.set_xlabel(label, fontsize=10, color="#94a3b8")
+                ax_pdp.set_ylabel("Partial Dependence (Avg Risk)", fontsize=10, color="#94a3b8")
+                ax_pdp.tick_params(colors="#94a3b8", labelsize=9)
+                ax_pdp.grid(True, linestyle="--", alpha=0.25, color="#64748b")
+                for spine in ax_pdp.spines.values():
+                    spine.set_color("#334155")
+            else:
+                raise ValueError("Model does not have predict_proba")
         except Exception as e:
-            logger.warning("Could not compute PDP for %s: %s", feat_name, e)
-            ax_pdp.text(0.5, 0.5, f"PDP computation fallback for {feat_name}", ha="center", va="center")
+            logger.warning("Could not compute empirical PDP for %s: %s", feat_name, e)
+            ax_pdp.text(0.5, 0.5, f"PDP computation fallback for {feat_name}", ha="center", va="center", color="#f8fafc")
         plt.tight_layout()
-        fig_pdp.savefig(GLOBAL_XAI_DIR / filename, bbox_inches="tight")
+        fig_pdp.savefig(GLOBAL_XAI_DIR / filename, facecolor=fig_pdp.get_facecolor(), edgecolor="none")
         plt.close(fig_pdp)
 
     # Global Explanation JSON

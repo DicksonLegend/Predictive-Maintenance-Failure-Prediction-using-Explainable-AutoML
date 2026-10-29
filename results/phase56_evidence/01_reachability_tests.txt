@@ -1,0 +1,9 @@
+﻿--- Reachability Test from inside xai-grafana-tf ---
+Candidate 1: http://prometheus:9090
+wget: bad address 'prometheus:9090' (FAILED)
+
+Candidate 2: http://xai-prometheus-tf:9090
+HTTP 200 OK - status: success (SUCCEEDED)
+
+Candidate 3: http://host.docker.internal:9090
+HTTP 200 OK - status: success (SUCCEEDED)
